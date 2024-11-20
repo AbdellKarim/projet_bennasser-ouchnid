@@ -1,27 +1,38 @@
 
-html {
-
-font-family: Arial;
-
-
+html {font-family: Arial;}
+.en_tete {
+    background: url('bibliotheque.jpg');
 }
-
-.en_tete{
-background-image: url('bibliotheque.jpg');
-background-size: 150% 100%;
-background-size: cover;
-}
-
-#tete{
-
+.en_tete h1{
+    
+    font-size: 5em ;
     margin: auto;
-    padding: 0%;
+    padding: 0 0 0.5em 0.5em;
 
 
 }
+.en_tete{
+    text-decoration: none;
+    color: white;
+}
+
+.menu > ul > li  {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.menu > ul > li > ul {
+    display: none;
+}
+ menu{
+    display: inline-block;
+    vertical-align: top;
+
+ }
+
 body {
     margin: auto;
     padding: 0%;
 
-
 }
+

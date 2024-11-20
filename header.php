@@ -1,5 +1,6 @@
 <!doctype html>
-<html>
+
+<html lang="fr">
   <head>
     <meta charset="UTF-8">
     <title>Programmation MySQL en PHP</title>
@@ -7,43 +8,38 @@
   </head>
   <body>
     <header class="en_tete">
-    <h1 id="tete" ><a href="index.php">bibliothèque</a></h1>
+    <h1><a href="index.php">bibliothèque</a></h1>
     </header>
-    <nav>
-
+    <nav class="menu">
       <ul>
-      <li><a href="">Abonnees</a></li>
+      <li><a href="#">Abonnés</a>
+     
           <ul>
               <li><a href="">Liste</a> </li>
               <li><a href="inscription.php">inscription</a> </li>
               <li><a href="">ModificATION</a> </li>
               <li><a href="">SUPRESSION</a> </li>
           </ul>
-      </ul>
-      <ul>
-      <li><a href="">LIVRES</a></li>
+
+        </li>
+    
+    <li><a href="#">Livres</a>
           <ul>
               <li><a href="affiche_ouvrages.php">Liste</a> </li>
               <li><a href="inscription.php">inscription</a> </li>
               <li><a href="">ModificATION</a> </li>
               <li><a href="">SUPRESSION</a> </li>
           </ul>
-      </ul>
-      <ul>
-      <li><a href="">EMRUNTER</a></li>
+    </li>
+
+      <li><a href="">EMRUNTER</a>
           <ul>
               <li><a href="">Liste</a> </li>
               <li><a href="emprunt.php">inscription</a> </li>
               <li><a href="">ModificATION</a> </li>
               <li><a href="">SUPRESSION</a> </li>
           </ul>
-      </ul>
-
-
-
-
-
-
+        </li>
 
 
 
@@ -52,3 +48,5 @@
     <nav>
       <!-- Insérer une barre de navigation ici -->
     </nav>
+
+  </body>
