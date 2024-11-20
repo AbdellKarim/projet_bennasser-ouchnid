@@ -49,9 +49,30 @@ background-color: black;
 
 
 .menu > ul > li:hover > ul { display: block; }
+
+.accueil {
+border: 1px solid rgba(34, 34, 34, 34);
+border-radius: 0.3em;
+width: 700px;
+margin: 1em auto 1em ;
+padding: 0 1em;
+
+}
+
 body {
     margin: auto;
     padding: 0%;
 
 }
 
+.piedDePage {
+
+    text-decoration: none;
+    color: black;
+}
+.piedDePage a {
+
+    text-decoration: none;
+    color: black;
+    padding-right:  ;
+}
