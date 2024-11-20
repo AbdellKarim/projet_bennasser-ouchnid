@@ -22,6 +22,7 @@
         <p><a href="serveur1.php"></a></p>    
         <p> <a href="info.php">info.php</a></p>
         <p>  <a href="navigateur.php">navigateur.php</a></p>
+        <p>amine</p>
       </section>
     </main>
     <footer>
