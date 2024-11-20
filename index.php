@@ -13,6 +13,7 @@
     </nav>
     <main>
       <section>
+      <img src="\projet_bennasser-ouchnid\photo\urca.png" alt="Description de l'image">
         <h2>Projet </h2>
 
         <p><a href="index.php">Client</a></p>
