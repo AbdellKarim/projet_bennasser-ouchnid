@@ -11,7 +11,7 @@ html {font-family: Arial;}
 
 
 }
-.en_tete{
+.en_tete a{
     text-decoration: none;
     color: white;
 }
@@ -24,12 +24,31 @@ html {font-family: Arial;}
 .menu > ul > li > ul {
     display: none;
 }
- menu{
-    display: inline-block;
-    vertical-align: top;
+.menu{
+    height: 3em;
+    background-color: black;
+ }
+ .menu li{
+width: 8em;
+line-height: 2em;
+text-align: center;
+list-style: none;
+background-color: black;
 
  }
+.menu ul {
+    padding: 0;
+    margin: 0;
 
+}
+.menu a {
+    text-decoration: none;
+    color: azure;
+
+}
+
+
+.menu > ul > li:hover > ul { display: block; }
 body {
     margin: auto;
     padding: 0%;
