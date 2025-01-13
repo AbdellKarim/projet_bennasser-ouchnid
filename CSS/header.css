@@ -1,7 +1,7 @@
 
 html {font-family: Arial;}
 .en_tete {
-    background: url('bibliotheque.jpg');
+    background: url('../IMAGES/bibliotheque.jpg');
 }
 .en_tete h1{
     
@@ -17,6 +17,8 @@ html {font-family: Arial;}
 }
 
 .menu > ul > li  {
+    position: relative;
+    width: 10em; /* Largeur des éléments du menu */
     display: inline-block;
     vertical-align: top;
 }
@@ -74,5 +76,5 @@ body {
 
     text-decoration: none;
     color: black;
-    padding-right:  ;
+    padding-right:  none;
 }
