@@ -25,3 +25,6 @@
 │   ├── auth.php       # Gestion de l'authentification
 ├── images/            # Images du site (logo, etc.)
 ├── README.md          # Instructions pour installer le projet
+
+
+ajouter du texte ici
