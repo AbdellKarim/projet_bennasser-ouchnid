@@ -113,7 +113,7 @@ try {
             FOREIGN KEY (IdProduit) REFERENCES Produits(IdProduit) ON DELETE CASCADE
         )"
     ];
-
+    //cam
     // Exécuter les requêtes pour créer les tables si elles n'existent pas
     foreach ($table_sql as $sql) {
         $conn->exec($sql);
@@ -128,6 +128,8 @@ try {
 // Fermer la connexion PDO
 $conn = null;
 ?>
+
+
 
 
 
