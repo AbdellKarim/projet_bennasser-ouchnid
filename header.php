@@ -15,30 +15,30 @@
       <li><a href="#">Abonnés</a>
 
           <ul>
-              <li><a href="Clients/liste.php">Liste des clients </a> </li>
-              <li><a href="Clients/ajouter.php">ajouter des clients</a> </li>
-              <li><a href="Clients/modifier.php">modification</a> </li>
-              <li><a href="Clients/supprimer.php">SUPRESSION</a> </li>
+              <li><a href="../Clients/liste.php">Liste des clients </a> </li>
+              <li><a href="../Clients/ajouter.php">ajouter des clients</a> </li>
+              <li><a href="../Clients/modifier.php">modification</a> </li>
+              <li><a href="../Clients/supprimer.php">SUPRESSION</a> </li>
           </ul>
 
         </li>
     Fid
     <li><a href="#">Commandes</a>
           <ul>
-              <li><a href="/Commandes/liste.php">Liste</a> </li>
-              <li><a href="/Commandes/ajouter.php">ajouter</a> </li>
-              <li><a href="/Commandes/modifier.php">modification</a> </li>
-              <li><a href="/Commandes/supprimer.php">SUPRESSION</a> </li>
-              <li><a href="/SCRIPTS/DB.php">Facture</a> </li>
+              <li><a href="../Commandes/liste.php">Liste</a> </li>
+              <li><a href="../Commandes/ajouter.php">ajouter</a> </li>
+              <li><a href="../Commandes/modifier.php">modification</a> </li>
+              <li><a href="../Commandes/supprimer.php">SUPRESSION</a> </li>
+              <li><a href="../SCRIPTS/DB.php">Facture</a> </li>
           </ul>
     </li>
 
       <li><a href="">Produit</a>
           <ul>
-              <li><a href="/projet_bennasser-ouchnid/Produits/liste.php">Liste</a> </li>
-              <li><a href="/projet_bennasser-ouchnid/Produits/ajouter.php">ajouter des produits</a> </li>
-              <li><a href="/projet_bennasser-ouchnid/Produits/modifier.php">modification</a> </li>
-              <li><a href="/projet_bennasser-ouchnid/Produits/supprimer.php">SUPRESSION</a> </li>
+              <li><a href="../Produits/liste.php">Liste</a> </li>
+              <li><a href="../Produits/ajouter.php">ajouter des produits</a> </li>
+              <li><a href="../Produits/modifier.php">modification</a> </li>
+              <li><a href="../Produits/supprimer.php">SUPRESSION</a> </li>
           </ul>
         </li>
 

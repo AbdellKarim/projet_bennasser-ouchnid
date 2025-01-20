@@ -7,7 +7,7 @@
 
 
 <?php
-require '../SCRIPTS/db.php'; // Connexion à la base
+
 $message = "";
 
 // La variable $message_erreur contiendra les éventuels messages d'erreur à afficher

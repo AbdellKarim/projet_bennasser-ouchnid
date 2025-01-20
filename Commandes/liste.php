@@ -2,7 +2,6 @@
 
 
 
-
 $message = "";
 
 // La variable $message_erreur contiendra les éventuels messages d'erreur à afficher
@@ -40,8 +39,8 @@ if (empty($message_erreur)) {
         $tableau_ouvrages .= "<table>\n
                               <thead>\n";
         $tableau_ouvrages .= "<tr>
-                                  <th>Ncom</th>
-                                  <th>Ncli</th> 
+                                  <th>NCom</th>
+                                  <th>NCli</th> 
                                   <th>DateCom</th>
                                   </tr>\n";
         $tableau_ouvrages .= "</thead>\n
@@ -50,8 +49,8 @@ if (empty($message_erreur)) {
         while ($ligne = mysqli_fetch_assoc($resultat)) {
           $tableau_ouvrages .=
                 "<tr>
-                    <td>" . $ligne['Ncom'] . " </td>".
-                   "<td>" . $ligne['Ncli'] . "</td>" .
+                    <td>" . $ligne['NCom'] . " </td>".
+                   "<td>" . $ligne['NCli'] . "</td>" .
                    "<td>" . $ligne['DateCom'] . "</td>".
                "</tr>\n";
 
@@ -78,15 +77,81 @@ if (empty($message_erreur)) {
 </head>
 <body>
     <h1>Liste des Commandes</h1>
-    <table border="1">
-        <thead>
-            <tr>
 
-            </tr>
-        </thead>
-
-    </table>
-    <p><a href="../UTILISATEURS/logout.php">Se déconnecter</a></p>
+    <main>
+      <?php
+      if (!empty($message_erreur) || !empty($message)) {
+        ?>
+        <!-- **************************************** -->
+        <!-- Messages de l'application                -->
+        <section>
+          <h2>Logs</h2>
+          <?php
+          if (!empty($message_erreur)) {
+            echo "<section>\n" . $message_erreur . "</section>\n";
+          }
+          if (!empty($message)) {
+            echo "<section>\n" . $message . "</section>\n";
+          }
+          ?>
+        </section>          
+        <?php
+      }
+      ?> 
+      <?php
+      if (!empty($tableau_ouvrages)) {
+        ?>
+        <!-- **************************************** -->
+        <!-- Affichage de la table ouvrage            -->
+        <section>
+          <h2>Ouvrages</h2>
+          <?php
+          echo $tableau_ouvrages;
+          ?>
+        </section>          
+        <?php
+      }
+      ?>
+    </main>
 </body>
 </html>
 
+
+
+<style>
+  table {
+      width: 80%;
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+  }
+
+  thead {
+      background-color: #007BFF;
+      color: white;
+  }
+
+  th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+  }
+
+  tr:nth-child(even) {
+      background-color: #f9f9f9;
+  }
+
+  tr:hover {
+      background-color: #f1f1f1;
+  }
+
+  th {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+  }
+
+  td {
+      color: #333;
+  }
+</style>
