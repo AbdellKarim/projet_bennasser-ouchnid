@@ -1,4 +1,19 @@
-<?php
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Page</title>
+    <link rel="stylesheet" href="../CSS/header.css">
+</head>
+<body>
+</body>
+</html>
+
+  <?php require "header.php"; 
+  /*
 // Connexion à la base de données
 $connexion = mysqli_connect("localhost", "root", "", "clicom");
 if (!$connexion) {
@@ -55,4 +70,7 @@ if (!empty($message_erreur)) {
 
 // Fermer la connexion
 mysqli_close($connexion);
+*/
+
 ?>
+
