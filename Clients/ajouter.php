@@ -46,7 +46,7 @@
     <?php
 
 
-$nom = '';
+$Ncom = '';
 $prenom = '';
 $email = '';
 $telephone = '';
@@ -56,7 +56,7 @@ $adresse = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Récupération des données du formulaire
-$nom = htmlspecialchars($_POST['nom']);
+$Ncom = htmlspecialchars($_POST['nom']);
 $prenom = htmlspecialchars($_POST['prenom']);
 $email = htmlspecialchars($_POST['email']);
 $telephone = htmlspecialchars($_POST['telephone'] ?? null); // Optionnel
@@ -73,7 +73,7 @@ if ($stmt->fetchColumn() > 0) {
     $message_erreur = "L'adresse email est déjà utilisée.";
 } else {      
     $stmt = $conn->prepare($sqlClient);
-if (    $stmt->execute([':nom' => $nom,':prenom' => $prenom,':email' => $email,':telephone' => $telephone,':adresse' => $adresse])) {
+if (    $stmt->execute([':nom' => $Ncom,':prenom' =>$Ncli,':email' => $email,':telephone' => $telephone,':adresse' => $adresse])) {
     $message = "Client ajouté avec succès.";
 } else {
     $message_erreur = "Erreur lors de l'ajout du client.";

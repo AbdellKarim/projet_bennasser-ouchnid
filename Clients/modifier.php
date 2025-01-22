@@ -39,8 +39,8 @@ if (isset($_GET['IdClient'])) {
 
 // Traiter le formulaire si soumis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nom = htmlspecialchars($_POST['nom']);
-    $prenom = htmlspecialchars($_POST['prenom']);
+    $Ncom = htmlspecialchars($_POST['nom']);
+   $Ncli = htmlspecialchars($_POST['prenom']);
     $email = htmlspecialchars($_POST['email']);
     $telephone = htmlspecialchars($_POST['telephone'] ?? null); // Optionnel
     $adresse = htmlspecialchars($_POST['adresse'] ?? null);    // Optionnel
@@ -56,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
    $stmt->execute([
-    'nom' => $nom,
-    'prenom' => $prenom,
+    'nom' => $Ncom,
+    'prenom' =>$Ncli,
     'email' => $email,
     'telephone' => $telephone,
     'adresse' => $adresse,

@@ -7,11 +7,11 @@ if ($connexion->connect_error) {
 // Ajouter un utilisateur
 $pseudo = 'admin';
 $password = password_hash('admin123', PASSWORD_DEFAULT); // Hasher le mot de passe
-$nom = 'Admin';
+$Ncom = 'Admin';
 $prenom = 'Superuser';
 
 $requete = $connexion->prepare("INSERT INTO utilisateur (Pseudo, Password, Nom, Prenom) VALUES (?, ?, ?, ?)");
-$requete->bind_param("ssss", $pseudo, $password, $nom, $prenom);
+$requete->bind_param("ssss", $pseudo, $password, $Ncom,$Ncli);
 
 if ($requete->execute()) {
     echo "Utilisateur ajouté avec succès.";

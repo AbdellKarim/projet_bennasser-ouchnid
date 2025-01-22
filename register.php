@@ -8,21 +8,21 @@ $message_erreur = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $pseudo = htmlspecialchars($_POST['pseudo']);
     $passe = trim($_POST['passe']);
-    $nom = htmlspecialchars($_POST['nom']);
-    $prenom = htmlspecialchars($_POST['prenom']);
-    $mail = htmlspecialchars($_POST['mail']);
+    $Ncom = htmlspecialchars($_POST['nom']);
+   $Ncli = htmlspecialchars($_POST['prenom']);
+   DateCom = htmlspecialchars($_POST['mail']);
     $telephone = htmlspecialchars($_POST['telephone']);
     $sexe = htmlspecialchars($_POST['sexe']);
     $aboNewsletter = isset($_POST['aboNewsletter']) ? 1 : 0;
     $commentaire = htmlspecialchars($_POST['commentaire']);
 
     // Validation des champs obligatoires
-    if (empty($pseudo) || empty($passe) || empty($nom) || empty($prenom) || empty($mail)) {
+    if (empty($pseudo) || empty($passe) || empty($Ncom) || empty($prenom) || empty($mail)) {
         $message_erreur = "Tous les champs obligatoires (*) doivent être remplis.";
     } else {
         // Vérification si le pseudo ou l'email existe déjà
         $requete = $pdo->prepare("SELECT * FROM utilisateur WHERE Pseudo = ? OR Mail = ?");
-        $requete->execute([$pseudo, $mail]);
+        $requete->execute([$pseudo,DateCom]);
         if ($requete->fetch()) {
             $message_erreur = "Le pseudo ou l'email est déjà utilisé.";
         } else {
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                 "INSERT INTO utilisateur (Sexe, Nom, Prenom, Mail, Telephone, Pseudo, Password, AboNewsletter, Commentaire) 
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
-            if ($requete->execute([$sexe, $nom, $prenom, $mail, $telephone, $pseudo, $passe_hache, $aboNewsletter, $commentaire])) {
+            if ($requete->execute([$sexe, $Ncom,$Ncli,DateCom, $telephone, $pseudo, $passe_hache, $aboNewsletter, $commentaire])) {
                 $message = "Utilisateur enregistré avec succès.";
             } else {
                 $message_erreur = "Erreur lors de l'enregistrement.";

@@ -14,7 +14,7 @@ $sexe = "";
 $civilite = "";
 $checked_h = "";
 $checked_f = "";
-$nom = "";
+$Ncom = "";
 $prenom = "";
 $mail = "";
 $telephone = "";
@@ -65,9 +65,9 @@ if (empty($message_erreur)) {
 
         $checked_h = (strcmp($utilisateur['Sexe'], "H") == 0) ? "checked" : "";
         $checked_f = (strcmp($utilisateur['Sexe'], "F") == 0) ? "checked" : "";
-        $nom = $utilisateur['Nom'];
-        $prenom = $utilisateur['Prenom'];
-        $mail = $utilisateur['Mail'];
+        $Ncom = $utilisateur['Nom'];
+       $Ncli = $utilisateur['Prenom'];
+       DateCom = $utilisateur['Mail'];
         $telephone = $utilisateur['Telephone'];
         $pseudo = $utilisateur['Pseudo'];
         $passe1 = "";
@@ -94,9 +94,9 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
   // Filtrage du contenu de $_POST et assignation à des variables locales
   // htmlspecialchars() : Convertit les caractères spéciaux en entités HTML
   // trim() : Supprime les espaces (ou d'autres caractères) en début et fin de chaîne
-  $nom = trim(htmlspecialchars($_POST['nom'], ENT_COMPAT));
-  $prenom = trim(htmlspecialchars($_POST['prenom'], ENT_COMPAT));
-  $mail = htmlspecialchars($_POST['mail']);
+  $Ncom = trim(htmlspecialchars($_POST['nom'], ENT_COMPAT));
+ $Ncli = trim(htmlspecialchars($_POST['prenom'], ENT_COMPAT));
+ DateCom = htmlspecialchars($_POST['mail']);
   $telephone = htmlspecialchars($_POST['telephone']);
   $pseudo = htmlspecialchars($_POST['pseudo']);
   $passe1 = trim($_POST['passe1']);
@@ -119,11 +119,11 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
     $message_erreur .= "La civilité doit être cochée<br>\n";
   }
 
-  if (empty($nom)) {
+  if (empty($Ncom)) {
     $message_erreur .= "Le champ nom est obligatoire<br>\n";
-  } elseif (strlen($nom) > 100) {
+  } elseif (strlen($Ncom) > 100) {
     $message_erreur .= "Le nom ne doit pas comporter plus de 100 caractères<br>\n";
-  } elseif (!preg_match('/^([[:alpha:]]|-|[[:space:]]|\')*$/u', $nom)) {
+  } elseif (!preg_match('/^([[:alpha:]]|-|[[:space:]]|\')*$/u', $Ncom)) {
     // [[:alpha:]] : caractères alphabétique
     // [[:space:]] : espace blanc
     $message_erreur .= "Le nom ne doit comporter que des lettres<br>\n";
@@ -133,7 +133,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
     $message_erreur .= "Le champ prenom est obligatoire<br>\n";
   } elseif (strlen($prenom) > 100) {
     $message_erreur .= "Le prénom ne doit pas comporter plus de 100 caractères<br>\n";
-  } elseif (!preg_match('/^([[:alpha:]]|-|[[:space:]]|\')*$/u', $prenom)) {
+  } elseif (!preg_match('/^([[:alpha:]]|-|[[:space:]]|\')*$/u',$Ncli)) {
     $message_erreur .= "Le prénom ne doit comporter que des lettres<br>\n";
   }
 
@@ -141,7 +141,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
     $message_erreur .= "Le champ mail est obligatoire<br>\n";
   } elseif (strlen($mail) > 250) {
     $message_erreur .= "Le champ mail doit être inférieur à 250 caractères<br>\n";
-  } elseif (!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', $mail)) {
+  } elseif (!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i',DateCom)) {
     $message_erreur .= "Le champ mail doit être valide mail@domaine.fr<br>\n";
   }
 
@@ -217,7 +217,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
       // Vérification du nombre de lignes du résultat
       if (mysqli_num_rows($resultat) != 0) {
         // Le mail existe déjà dans la table
-        $message_erreur .= "Le mail $mail existe déjà<br>\n";
+        $message_erreur .= "Le mailDateCom existe déjà<br>\n";
       }
     } else {
       $message_erreur .= "Erreur de la requête $requete<br>\n";
@@ -234,7 +234,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
       // Requête de modification de l'utilisateur dans la table utilisateur
       $requete = "update utilisateur set "
               . "Sexe = '$sexe', "
-              . "Nom = '$nom', "
+              . "Nom = '$Ncom', "
               . "Prenom = '$prenom', "
               . "Mail = '$mail', "
               . "Telephone = ";
@@ -252,7 +252,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
       // Requête d'insertion de l'utilisateur dans la table utilisateur
       $requete = "insert into utilisateur (Sexe,Nom,Prenom,Mail,Telephone,"
               . "Pseudo,Password,AboNewsletter,Commentaire)"
-              . "values ('$sexe',\"$nom\",\"$prenom\",'$mail',";
+              . "values ('$sexe',\"$Ncom\",\"$prenom\",'$mail',";
       $requete .= empty($telephone) ? "null" : "'$telephone'";
       $requete .= ",'$pseudo','$passe_chiffre',$abo_newsletter,";
       $requete .= empty($commentaire) ? "null" : "\"$commentaire\"";
@@ -269,8 +269,8 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
 
         // Mise à jour des variables de session
         $_SESSION['session_pseudo'] = $pseudo;
-        $_SESSION['session_nom'] = $nom;
-        $_SESSION['session_prenom'] = $prenom;
+        $_SESSION['session_nom'] = $Ncom;
+        $_SESSION['session_prenom'] =$Ncli;
       } else {
         // Aucun utilisateur connecté 
         $message .= "<p>Nous avons pris en compte votre inscription.\n";
@@ -278,9 +278,9 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
       $message .= "<br>Voici les données saisies :</p>\n";
       $message .= "<ul>\n";
       $message .= "<li>Civilité : " . $civilite . "</li>\n";
-      $message .= "<li>Nom : " . $nom . "</li>\n";
-      $message .= "<li>Prénom : " . $prenom . "</li>\n";
-      $message .= "<li>Mail : " . $mail . "</li>\n";
+      $message .= "<li>Nom : " . $Ncom . "</li>\n";
+      $message .= "<li>Prénom : " .$Ncli . "</li>\n";
+      $message .= "<li>Mail : " .DateCom . "</li>\n";
       if (empty($telephone)) {
         $message .= "<li>Téléphone : Non saisi</li>\n";
       } else {
@@ -353,15 +353,15 @@ if ($connexion) {
               </p>
               <p>
                 <label for="nom">Nom </label>
-                <input type="text" id="nom" name="nom" placeholder="Nom"  value="<?php echo $nom ?>" maxlength="100" required>
+                <input type="text" id="nom" name="nom" placeholder="Nom"  value="<?php echo $Ncom ?>" maxlength="100" required>
               </p>
               <p>
                 <label for="prenom">Prénom </label>
-                <input type="text" id="prenom" name="prenom" placeholder="Prénom"  value="<?php echo $prenom ?>" maxlength="100" required>
+                <input type="text" id="prenom" name="prenom" placeholder="Prénom"  value="<?php echo$Ncli ?>" maxlength="100" required>
               </p>
               <p>
                 <label for="mail">Adresse Mail </label>
-                <input type="email" id="mail" name="mail" placeholder="Adresse Mail"  value="<?php echo $mail ?>" maxlength="250" required>
+                <input type="email" id="mail" name="mail" placeholder="Adresse Mail"  value="<?php echoDateCom ?>" maxlength="250" required>
               </p>
               <p>
                 <label for="telephone">Numéro de téléphone </label>

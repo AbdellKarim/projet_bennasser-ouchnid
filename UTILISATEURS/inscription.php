@@ -24,8 +24,8 @@ try {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer et sécuriser les données du formulaire
-    $nom = htmlspecialchars(trim($_POST['nom']));
-    $prenom = htmlspecialchars(trim($_POST['prenom']));
+    $Ncom = htmlspecialchars(trim($_POST['nom']));
+   $Ncli = htmlspecialchars(trim($_POST['prenom']));
     $email = htmlspecialchars(trim($_POST['email']));
     $pseudo = htmlspecialchars(trim($_POST['pseudo']));
     $password = trim($_POST['password']);
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sexe = htmlspecialchars(trim($_POST['sexe'])); // 'H', 'F', ou 'M'
 
     // Vérification des champs obligatoires
-    if (empty($nom) || empty($prenom) || empty($email) || empty($pseudo) || empty($password)) {
+    if (empty($Ncom) || empty($prenom) || empty($email) || empty($pseudo) || empty($password)) {
         echo "Tous les champs obligatoires doivent être remplis.";
         exit;
     }
@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 VALUES (:sexe, :nom, :prenom, :telephone, :email, :pseudo, :password, :aboNewsletter, :commentaire)");
         $stmt->execute([
             ':sexe' => $sexe,
-            ':nom' => $nom,
-            ':prenom' => $prenom,
+            ':nom' => $Ncom,
+            ':prenom' =>$Ncli,
             ':telephone' => $telephone,
             ':email' => $email,
             ':pseudo' => $pseudo,
