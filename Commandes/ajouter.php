@@ -1,3 +1,5 @@
+
+
 <?php
 // La variable $message contiendra les éventuels messages de l'application à afficher
 $message = "";
@@ -64,8 +66,16 @@ if (isset($_POST['inscrire'])) {
   // Si aucun message d'erreur
   if (empty($message_erreur)) {
     // Requête d'insertion de l'utilisateur dans la table produit
+    $requete = "INSERT INTO commande (Ncom, Ncli, DateCom) VALUES (?, ?, ?)";
+    $stmt = mysqli_prepare($connexion, $requete);
 
-$requete = "INSERT INTO commande (Ncom, Ncli, DateCom) VALUES ('$Ncom', '$Ncli', '$DateCom')";
+    // Liaison des paramètres
+    mysqli_stmt_bind_param($stmt, "sss", $Ncom, $Ncli, $DateCom);
+  
+    // Exécution de la requête
+    $resultat = mysqli_stmt_execute($stmt);
+
+//$requete = "INSERT INTO commande (Ncom, Ncli, DateCom) VALUES ('$Ncom', '$Ncli', '$DateCom')";
 
     // Exécution de la requête
     $resultat = mysqli_query($connexion, $requete);
@@ -92,6 +102,7 @@ if ($connexion) {
 <!doctype html>
 <!-- **************************************** -->
 <!-- Construction de la page HTML             --> 
+
 <html>
   <head>
     <meta charset="UTF-8">
@@ -127,8 +138,8 @@ if ($connexion) {
       // S'il y a eu des erreurs ou si aucun appui sur le bouton "S'inscrire" 
       if (!empty($message_erreur) || !isset($_POST['inscrire'])) {
         ?>
-        <!-- **************************************** -->
-        <!-- Affichage du formulaire                  -->
+        <!--****************************************-->
+        <!--Affichage du formulaire-->
         <section>     
           <h2>Inscription</h2>
           <form action="" method="POST">
@@ -139,18 +150,37 @@ if ($connexion) {
                 <label for="Ncom">NCom </label>
                 <input type="text" id="Ncom" name="Ncom" placeholder="Ncom"  value="<?php echo $Ncom ?>" maxlength="5" required>
               </p>
+
               <p>
+              <label for="DateCom">DateCom </label>
+              <input type="date" id="DateCom" name="DateCom" value="2018-06-12" min="2010-06-07" max="2025-06-14" />
+              </p>
+
+              <p>
+                <?php 
+                $sql = "SELECT Ncli FROM client";
+                $result = $conn->query($sql);
+                ?>      
                 <label for="Ncli">Ncli </label>
-                <input type="text" id="Ncli" name="Ncli" placeholder="Ncli"  value="<?php echo $Ncli ?>" maxlength="100" required>
-              </p>
-              <p>
-                <label for="DateCom">DateCom </label>
-                <input type="text" id="DateCom" name="DateCom" placeholder="DateCom"  value="<?php echo $DateCom ?>" maxlength="250" required>
+                
+                <input list="Ncli" id="Ncli" name="Ncli">
+                <p>
+                <?php
+                $connexion = mysqli_connect("localhost", "root", "", "bibliotheque");
+                $sql = "SELECT Ncli FROM client";
+                $result = mysqli_query($connexion, $sql);
+                ?>
+                <label for="Ncli">Ncli </label>
+                <input list="Ncli" id="Ncli" name="Ncli">
+                <datalist id="Ncli">
+                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                        <option value="<?= $row['Ncli']; ?>">
+                    <?php } ?>
+                </datalist>
+                <?php mysqli_close($connexion); ?>
+            </p>
               </p>
 
-            </section>
-
-            <section>
               <p><input type="submit" name="inscrire" value="S'inscrire"></p>
             </section>
           </form>
@@ -162,5 +192,5 @@ if ($connexion) {
     <footer>
       <!-- Insérer un pied de page ici -->
     </footer>
-  </body>
+  dy>
 </html>
