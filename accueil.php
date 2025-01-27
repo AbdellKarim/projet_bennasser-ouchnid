@@ -15,16 +15,47 @@ if (!isset($_SESSION['idutilisateur'])) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Accueil</title>
+    <title>Projet Clicom</title>
+    <link rel="stylesheet" href="../CSS/header.css">
+    <style>
+        .message-accueil {
+            margin: 30px auto;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #333;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+        }
+        .message-accueil h1 {
+            font-size: 2rem;
+            color: #007bff;
+        }
+        .message-accueil p {
+            margin: 10px 0;
+        }
+        .message-accueil a {
+            text-decoration: none;
+            color: #ff0000;
+            font-weight: bold;
+        }
+        .message-accueil a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <!-- Inclure le header -->
     <?php include 'header.php'; ?>
 
-    <!-- Contenu spécifique à l'accueil -->
-    <div style="text-align: center; margin-top: 50px;">
-        <h1>Bienvenue dans votre espace personnel</h1>
-        <p>  Utilisez le menu pour naviguer .</p>
-    </div>
+    <!-- Message d'accueil -->
+    <section class="message-accueil">
+        <h1>Bienvenue, dans Notre Projet !</h1>
+        <p>BenNasser, Ouchnid</p>
+        <p>Ceci est votre page d'accueil après connexion.</p>
+        <p><a href="../logout.php">Se déconnecter</a></p>
+    </section>
 </body>
 </html>
