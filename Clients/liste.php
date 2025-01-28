@@ -1,6 +1,9 @@
 
 
 
+<?php
+require '../auth.php'; // Vérifie si l'utilisateur est connecté
+?>
 
 
 <?php require '../header.php'?>

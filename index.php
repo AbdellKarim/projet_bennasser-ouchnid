@@ -1,7 +1,7 @@
 
 
-
 <?php
+
 // Démarrer la session
 session_start();
 
@@ -10,7 +10,7 @@ if (!isset($_SESSION['idutilisateur'])) {
     // Rediriger vers la page de connexion si non connecté
     header('Location: login.html');
     exit();
-}
+} 
 ?>
 
 <!DOCTYPE html>

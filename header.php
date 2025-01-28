@@ -20,7 +20,7 @@
 
  
     <header class="en_tete">
-        <h1><a href="index.php">Bibliothèque</a></h1>
+         <h1><a href="../accueil.php">Bibliothèque</a></h1>
     </header>
     <nav class="menu">
         <ul>
