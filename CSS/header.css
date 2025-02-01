@@ -1,80 +1,151 @@
+/* Style général */
+html {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Fond léger */
+    margin: 0;
+    padding: 0;
+}
 
-html {font-family: Arial;}
+/* ---------- HEADER ----------- */
 .en_tete {
-    background: url('../IMAGES/bibliotheque.jpg');
+    background: url('../IMAGES/bibliotheque.jpg') no-repeat center/cover;
+    text-align: center;
+    padding: 50px 0;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
-.en_tete h1{
-    
-    font-size: 5em ;
-    margin: auto;
-    padding: 0 0 0.5em 0.5em;
 
-
+.en_tete h1 {
+    font-size: 4em;
+    margin: 0;
 }
-.en_tete a{
+
+.en_tete a {
     text-decoration: none;
     color: white;
 }
 
-.menu > ul > li  {
-    position: relative;
-    width: 10em; /* Largeur des éléments du menu */
-    display: inline-block;
-    vertical-align: top;
+/* ---------- MENU NAVIGATION ----------- */
+.menu {
+    background-color: #222;
+    height: 3.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.menu > ul > li > ul {
-    display: none;
-}
-.menu{
-    height: 3em;
-    background-color: black;
- }
- .menu li{
-width: 8em;
-line-height: 2em;
-text-align: center;
-list-style: none;
-background-color: black;
-
- }
-.menu ul {
+.menu > ul {
     padding: 0;
     margin: 0;
-
+    list-style: none;
+    display: flex;
 }
-.menu a {
+
+.menu > ul > li {
+    position: relative;
+    width: 10em;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.menu > ul > li > a {
     text-decoration: none;
     color: azure;
-
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    transition: background 0.3s;
 }
 
+.menu > ul > li:hover {
+    background: #444;
+}
 
-.menu > ul > li:hover > ul { display: block; }
+/* Sous-menus */
+.menu ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #333;
+    width: 100%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 0;
+}
 
+.menu ul li:hover ul {
+    display: block;
+}
+
+.menu ul li ul li {
+    list-style: none;
+    padding: 10px;
+}
+
+.menu ul li ul li a {
+    color: white;
+    display: block;
+    padding: 10px;
+    transition: background 0.3s;
+}
+
+.menu ul li ul li a:hover {
+    background: #555;
+}
+
+/* ---------- SECTION ACCUEIL ----------- */
 .accueil {
-border: 1px solid rgba(34, 34, 34, 34);
-border-radius: 0.3em;
-width: 700px;
-margin: 1em auto 1em ;
-padding: 0 1em;
-
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: white;
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-body {
-    margin: auto;
-    padding: 0%;
-
-}
-
+/* ---------- PIED DE PAGE ----------- */
 .piedDePage {
-
-    text-decoration: none;
-    color: black;
+    text-align: center;
+    padding: 15px;
+    background: #222;
+    color: white;
+    margin-top: 20px;
 }
-.piedDePage a {
 
+.piedDePage a {
+    color: #ffcc00;
     text-decoration: none;
-    color: black;
-    padding-right:  none;
+}
+
+.piedDePage a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- RESPONSIVE DESIGN (Mobile) ----------- */
+@media screen and (max-width: 768px) {
+    .en_tete h1 {
+        font-size: 3em;
+    }
+
+    .menu {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .menu > ul {
+        flex-direction: column;
+    }
+
+    .menu > ul > li {
+        width: 100%;
+    }
+
+    .accueil {
+        width: 90%;
+        padding: 15px;
+    }
 }
