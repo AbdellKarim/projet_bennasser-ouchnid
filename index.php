@@ -1,6 +1,6 @@
 
 
-<?php
+<?php 
 
 // Démarrer la session
 session_start();
@@ -8,11 +8,12 @@ session_start();
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['idutilisateur'])) {
     // Rediriger vers la page de connexion si non connecté
-    header('Location: login.html');
+    header('Location: login.php');
     exit();
-} 
+}
+    
 ?>
-
+<?php require 'header.php' ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -45,11 +46,14 @@ if (!isset($_SESSION['idutilisateur'])) {
     <div class="container">
         <h1>Bienvenue, dans Notre Projet !</h1>
         <p>BenNasser, Ouchnid</p>
-        <p>Ceci est votre page d'accueil après connexion.</p>
-        <p><a href="UTILISATEURS/logout.php">Se déconnecter</a></p>
+
+        <p><a href="./UTILISATEURS/logout.php">Se déconnecter</a></p>
     </div>
 </body>
 </html>
+
+
+
 
 
 

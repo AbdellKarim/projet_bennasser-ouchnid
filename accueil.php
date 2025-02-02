@@ -1,3 +1,5 @@
+
+
 <?php
 // Vérifier et démarrer une session si nécessaire
 if (session_status() === PHP_SESSION_NONE) {
@@ -11,6 +13,9 @@ if (!isset($_SESSION['idutilisateur'])) {
     exit();
 }
 ?>
+
+
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -47,14 +52,13 @@ if (!isset($_SESSION['idutilisateur'])) {
     </style>
 </head>
 <body>
-    <!-- Inclure le header -->
-    <?php include 'header.php'; ?>
+
 
     <!-- Message d'accueil -->
     <section class="message-accueil">
-        <h1>Bienvenue, dans Notre Projet !</h1>
+
         <p>BenNasser, Ouchnid</p>
-        <p>Ceci est votre page d'accueil après connexion.</p>
+
         <p><a href="../logout.php">Se déconnecter</a></p>
     </section>
 </body>
