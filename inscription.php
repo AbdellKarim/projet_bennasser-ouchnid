@@ -67,7 +67,7 @@ if (empty($message_erreur)) {
         $checked_f = (strcmp($utilisateur['Sexe'], "F") == 0) ? "checked" : "";
         $Ncom = $utilisateur['Nom'];
        $Ncli = $utilisateur['Prenom'];
-       DateCom = $utilisateur['Mail'];
+       $$DateCom = $utilisateur['Mail'];
         $telephone = $utilisateur['Telephone'];
         $pseudo = $utilisateur['Pseudo'];
         $passe1 = "";
@@ -96,7 +96,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
   // trim() : Supprime les espaces (ou d'autres caractères) en début et fin de chaîne
   $Ncom = trim(htmlspecialchars($_POST['nom'], ENT_COMPAT));
  $Ncli = trim(htmlspecialchars($_POST['prenom'], ENT_COMPAT));
- DateCom = htmlspecialchars($_POST['mail']);
+ $DateCom = htmlspecialchars($_POST['mail']);
   $telephone = htmlspecialchars($_POST['telephone']);
   $pseudo = htmlspecialchars($_POST['pseudo']);
   $passe1 = trim($_POST['passe1']);
@@ -141,7 +141,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
     $message_erreur .= "Le champ mail est obligatoire<br>\n";
   } elseif (strlen($mail) > 250) {
     $message_erreur .= "Le champ mail doit être inférieur à 250 caractères<br>\n";
-  } elseif (!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i',DateCom)) {
+  } elseif (!preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i',$DateCom)) {
     $message_erreur .= "Le champ mail doit être valide mail@domaine.fr<br>\n";
   }
 
@@ -280,7 +280,7 @@ if (isset($_POST['inscrire']) || isset($_POST['modifier'])) {
       $message .= "<li>Civilité : " . $civilite . "</li>\n";
       $message .= "<li>Nom : " . $Ncom . "</li>\n";
       $message .= "<li>Prénom : " .$Ncli . "</li>\n";
-      $message .= "<li>Mail : " .DateCom . "</li>\n";
+      $message .= "<li>Mail : " .$DateCom . "</li>\n";
       if (empty($telephone)) {
         $message .= "<li>Téléphone : Non saisi</li>\n";
       } else {
@@ -361,7 +361,7 @@ if ($connexion) {
               </p>
               <p>
                 <label for="mail">Adresse Mail </label>
-                <input type="email" id="mail" name="mail" placeholder="Adresse Mail"  value="<?php echoDateCom ?>" maxlength="250" required>
+                <input type="email" id="mail" name="mail" placeholder="Adresse Mail"  value="<?php echo $DateCom ?>" maxlength="250" required>
               </p>
               <p>
                 <label for="telephone">Numéro de téléphone </label>

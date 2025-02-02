@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $passe = trim($_POST['passe']);
     $Ncom = htmlspecialchars($_POST['nom']);
    $Ncli = htmlspecialchars($_POST['prenom']);
-   DateCom = htmlspecialchars($_POST['mail']);
+   $DateCom = htmlspecialchars($_POST['mail']);
     $telephone = htmlspecialchars($_POST['telephone']);
     $sexe = htmlspecialchars($_POST['sexe']);
     $aboNewsletter = isset($_POST['aboNewsletter']) ? 1 : 0;
