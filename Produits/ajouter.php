@@ -1,209 +1,178 @@
 <?php
-// La variable $message contiendra les éventuels messages de l'application à afficher
-$message = "";
+require '../auth.php'; // Vérifie si l'utilisateur est connecté
+require '../header.php'; // Inclusion du header
 
-// La variable $message_erreur contiendra les éventuels messages d'erreur de l'application à afficher
+// **********************************************
+// Initialisation des messages
+$message = "";
 $message_erreur = "";
 
 // **********************************************
+// Connexion à la base de données
+$connexion = mysqli_connect("localhost", "root", "", "clicom");
+
+if (!$connexion) {
+    $message_erreur .= "Erreur de connexion à la base de données<br>\n";
+    $message_erreur .= "Erreur n° " . mysqli_connect_errno() . " : " . mysqli_connect_error() . "<br>\n";
+} else {
+    mysqli_set_charset($connexion, "utf8");
+}
+
+// **********************************************
 // Traitement du formulaire
-//
-// Initialisation des variables contenant les données saisies dans le formulaire
-// et utilisées pour remplir le formulaire
-$Ncom = "";
-$Ncli = "";
-$DateCom = "";
+$NPro = "";
+$Libelle = "";
+$PrixHT = "";
+$QStock = "";
 
+if (isset($_POST['ajouter'])) {
+    $NPro = trim(htmlspecialchars($_POST['NPro']));
+    $Libelle = trim(htmlspecialchars($_POST['Libelle']));
+    $PrixHT = trim(htmlspecialchars($_POST['PrixHT']));
+    $QStock = trim(htmlspecialchars($_POST['QStock']));
 
-// Gestion d'erreur manuelle : désactivation des rapports d'erreur
-error_reporting(0); // Désactivation du rapport d'erreurs de PHP
-mysqli_report(MYSQLI_REPORT_OFF); // Désactivation du rapport d'erreur mysqli
-// Connexion à la base de données bibliotheque du serveur localhost
-$connexion = mysqli_connect("localhost", "root", "", "bibliotheque");
-if ($connexion) {
-  // Changement du jeu de caractères pour utf-8 
-  mysqli_set_charset($connexion, "utf8");
-} else {
-  $message_erreur .= "Erreur de connexion<br>\n";
-  $message_erreur .= "  Erreur n° " . mysqli_connect_errno() . " : " . mysqli_connect_error() . "<br>\n";
-}
+    // Vérifications
+    if (empty($NPro)) {
+        $message_erreur .= "Le champ ID Produit est obligatoire<br>\n";
+    }
+    if (empty($Libelle)) {
+        $message_erreur .= "Le champ Libellé est obligatoire<br>\n";
+    }
+    if (empty($PrixHT) || !is_numeric($PrixHT) || $PrixHT < 0) {
+        $message_erreur .= "Le Prix HT doit être un nombre positif<br>\n";
+    }
+    if (empty($QStock) || !is_numeric($QStock) || $QStock < 0) {
+        $message_erreur .= "Le Stock doit être un nombre positif<br>\n";
+    }
 
-if (isset($_POST['inscrire'])) {
-  //***************************
-  // Clic sur le bouton "S'inscrire" de valeur name="inscrire"
-  // Traitement du formulaire
-  // 
-  // Filtrage du contenu de $_POST et assignation à des variables locales
-  // htmlspecialchars() : Convertit les caractères spéciaux en entités HTML
-  // trim() : Supprime les espaces (ou d'autres caractères) en début et fin de chaîne
-  $Ncom = trim(htmlspecialchars($_POST['Ncom'], ENT_COMPAT));
-  $Ncli = trim(htmlspecialchars($_POST['Ncli'], ENT_COMPAT));
-  $DateCom = htmlspecialchars($_POST['DateCom']);
+    // Si aucun message d'erreur
+    if (empty($message_erreur)) {
+        // Vérification si le produit existe déjà
+        $requete = "SELECT * FROM produit WHERE NPro = ?";
+        $stmt = mysqli_prepare($connexion, $requete);
+        mysqli_stmt_bind_param($stmt, "s", $NPro);
+        mysqli_stmt_execute($stmt);
+        $resultat = mysqli_stmt_get_result($stmt);
 
-  // Vérification de toutes les valeurs saisies
-  // 
+        if (mysqli_num_rows($resultat) != 0) {
+            $message_erreur .= "Le produit avec l'ID $NPro existe déjà<br>\n";
+        } else {
+            // Insertion du produit
+            $requete = "INSERT INTO produit (NPro, Libelle, PrixHT, QStock) VALUES (?, ?, ?, ?)";
+            $stmt = mysqli_prepare($connexion, $requete);
+            mysqli_stmt_bind_param($stmt, "ssdi", $NPro, $Libelle, $PrixHT, $QStock);
+            $execution = mysqli_stmt_execute($stmt);
 
-
-  if (empty($Ncom)) {
-    $message_erreur .= "Le champ prenom est obligatoire<br>\n";
-  } elseif (strlen($Ncom) > 5) {
-    $message_erreur .= "Le prénom ne doit pas comporter plus de 5 chifres <br>\n";
-  } elseif (!preg_match('/^[0-9]*$/u',$Ncli)) {
-    $message_erreur .= "Le prénom ne doit comporter que des chifres<br>\n";
-  }
-
-
-
-  if (empty($Ncli)) {
-    $message_erreur .= "Le champ pseudo est obligatoire<br>\n";
-  } elseif (!preg_match('/^[0-9]{3}([a-zA-Z])/u', $Ncli)) {
-    $message_erreur .= "Le Ncli ne doit comporter une lettre et 3 chiffres<br>\n";
-  }
-
-  if (empty($DateCom)) {
-    $message_erreur .= "La date est obligatoire<br>\n";
-} elseif (!preg_match('/^\d{2}-\d{2}-\d{4}$/', $DateCom)) {
-    $message_erreur .= "Le format de la date doit être DD-MM-YYYY<br>\n";
-} else {
-    $date = DateTime::createFromFormat('d-m-Y', $DateCom);
-    if (!$date || $date->format('d-m-Y') !== $DateCom) {
-        $message_erreur .= "La date n'est pas valide<br>\n";
+            if ($execution) {
+                $message .= "Produit ajouté avec succès !<br>\n";
+                // Réinitialiser les champs du formulaire après succès
+                $NPro = "";
+                $Libelle = "";
+                $PrixHT = "";
+                $QStock = "";
+            } else {
+                $message_erreur .= "Erreur lors de l'ajout du produit.<br>\n";
+            }
+        }
     }
 }
 
-
-
-
-  // Si aucun message d'erreur
-  if (empty($message_erreur)) {
-    //*******************************************
-    // Saisie des données du formulaire dans la table utilisateur
-    // après verification que le pseudo et le mail n'existent 
-    // pas déjà dans la table
-    // 
-    // Vérification que le pseudo n'existe pas dans la table utilisateur
-    $requete = "select * from produit where NCom = '$NCom'";
-    $resultat = mysqli_query($connexion, $requete);
-    if ($resultat) {
-      // Vérification du nombre de lignes du résultat
-      if (mysqli_num_rows($resultat) != 0) {
-        // Le pseudo existe déjà dans la table
-        $message_erreur .= "Le pseudo $NCom existe déjà<br>\n";
-      }
-    } else {
-      $message_erreur .= "Erreur de la requête $requete<br>\n";
-      $message_erreur .= "Erreur n° " . mysqli_errno($connexion) . " : " . mysqli_error($connexion) . "<br>\n";
-    }
-
-
-  }
-
-  // Si aucun message d'erreur
-  if (empty($message_erreur)) {
-    // Requête d'insertion de l'utilisateur dans la table utilisateur
-    $requete = "insert into produit (Ncom,Nom,DateCom)"
-            . "values ('$Ncom',\"$Ncli\",";
-    $requete .= empty($DateCom) ? "null" : "'$date('d-m-Y');'";
-    $requete .= ");";
-
-    // Exécution de la requête
-    $resultat = mysqli_query($connexion, $requete);
-    if ($resultat) {
-      // Affiche un message de confirmation ainsi que les valeurs saisies
-      $message .= "<p>Nous avons pris en compte votre inscription.\n";
-      $message .= "<br>Voici les données saisies :</p>\n";
-      $message .= "<ul>\n";
-      $message .= "<li>Ncom : " . $Ncom . "</li>\n";
-      $message .= "<li>Ncli : " . $Ncli . "</li>\n";
-      $message .= "<li>DateCom : " .$DateCom . "</li>\n";
-      if (empty($DateCom)) {
-        $message .= "<li>Téléphone : Non saisi </li>\n";
-      } else {
-        $message .= "<li>Téléphone : " . $DateCom . "</li>\n";
-      }
-
-  }
-}
-}
-
+// **********************************************
 // Déconnexion de la base de données
 if ($connexion) {
-  mysqli_close($connexion);
+    mysqli_close($connexion);
 }
-?> 
-<!doctype html>
-<!-- **************************************** -->
-<!-- Construction de la page HTML             --> 
-<html>
-  <head>
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
-  </head>
-  <body>
-
+    <title>Ajouter un Produit</title>
+    <link rel="stylesheet" href="../CSS/header.css">
+    <style>
+        /* Style du formulaire */
+        .form-container {
+            width: 50%;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background: #218838;
+        }
+        .message {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: green;
+        }
+        .message-erreur {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
     <header>
-      <h1><a href="index.php">AJOUTER UNE COMMANDES</a></h1>
+        <h1>Ajouter un Produit</h1>
     </header>
-    <nav>
-      <!-- Insérer une barre de navigation ici -->
-    </nav>
+
     <main>
-      <?php
-      if (!empty($message_erreur) || !empty($message)) {
-        ?>
-        <!-- **************************************** -->
-        <!-- Messages éventuels de l'application      -->
-        <section>
-          <h2>Logs</h2>
-          <?php
-          if (!empty($message_erreur)) {
-            echo "<section>\n" . $message_erreur . "</section>\n";
-          }
-          if (!empty($message)) {
-            echo "<section>\n" . $message . "</section>\n";
-          }
-          ?>
-        </section>          
-        <?php
-      }
-      // S'il y a eu des erreurs ou si aucun appui sur le bouton "S'incrire" 
-      if (!empty($message_erreur) || !isset($_POST['inscrire'])) {
-        ?>
-        <!-- **************************************** -->
-        <!-- Affichage du formulaire                  -->
-        <section>     
-          <h2>Inscription</h2>
-          <form action="" method="POST">
-            <section>
-              <h3>Coordonnées</h3>
-   
-              <p>
-                <label for="Ncli">Nom </label>
-                <input type="text" id="nom" name="nom" placeholder="Nom"  value="<?php echo $Ncom ?>" maxlength="5" required>
-              </p>
-              <p>
-                <label for="Ncli">Ncli </label>
-                <input type="text" id="Ncli" name="Ncli" placeholder="Ncli"  value="<?php echo $Ncli ?>" maxlength="100" required>
-              </p>
-              <p>
-                <label for="DateCom">DateCom </label>
-                <input type="DateCom" id="DateCom" name="DateCom" placeholder="DateCom"  value="<?php echo $DateCom ?>" maxlength="250" required>
-              </p>
+        <div class="form-container">
+            <h2>Formulaire d'Ajout</h2>
 
-            </section>
+            <?php if (!empty($message_erreur)) { ?>
+                <p class="message-erreur"><?php echo $message_erreur; ?></p>
+            <?php } ?>
 
-            <section>
-              <p><input type="submit" name="inscrire" value="S'inscrire"></p>
-            </section>
-          </form>
-        </section>
-        <?php
-      }
-      ?> 
+            <?php if (!empty($message)) { ?>
+                <p class="message"><?php echo $message; ?></p>
+            <?php } ?>
+
+            <form action="" method="POST">
+                <label for="NPro">ID Produit :</label>
+                <input type="text" id="NPro" name="NPro" placeholder="Ex: PROD123" value="<?php echo $NPro; ?>" required>
+
+                <label for="Libelle">Libellé :</label>
+                <input type="text" id="Libelle" name="Libelle" placeholder="Nom du produit" value="<?php echo $Libelle; ?>" required>
+
+                <label for="PrixHT">Prix HT (€) :</label>
+                <input type="number" id="PrixHT" name="PrixHT" placeholder="Ex: 49.99" step="0.01" value="<?php echo $PrixHT; ?>" required>
+
+                <label for="QStock">Stock :</label>
+                <input type="number" id="QStock" name="QStock" placeholder="Quantité en stock" value="<?php echo $QStock; ?>" required>
+
+                <input type="submit" name="ajouter" value="Ajouter le Produit">
+            </form>
+        </div>
     </main>
-    <footer>
-      <!-- Insérer un pied de page ici -->
-    </footer>
-  </body>
-</html>
 
+    <?php require '../fotter.php'; ?>
+</body>
+</html>

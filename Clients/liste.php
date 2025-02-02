@@ -2,6 +2,7 @@
 require '../auth.php'; // Vérifier si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header
 
+
 // **********************************************
 // Initialisation des variables pour les messages
 $message = "";
@@ -185,5 +186,6 @@ if ($connexion) {
     </main>
 
     <?php require '../fotter.php'; ?>
+    <td><a href="modifier_client.php?id=<?= $ligne['NCli']; ?>">Modifier</a></td>
 </body>
 </html>

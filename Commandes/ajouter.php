@@ -1,196 +1,183 @@
-
-
 <?php
-// La variable $message contiendra les éventuels messages de l'application à afficher
-$message = "";
+require '../auth.php'; // Vérifie si l'utilisateur est connecté
+require '../header.php'; // Inclusion du header
 
-// La variable $message_erreur contiendra les éventuels messages d'erreur de l'application à afficher
+// **********************************************
+// Initialisation des messages
+$message = "";
 $message_erreur = "";
 
 // **********************************************
+// Connexion à la base de données
+$connexion = mysqli_connect("localhost", "root", "", "clicom");
+
+if (!$connexion) {
+    $message_erreur .= "Erreur de connexion à la base de données<br>\n";
+    $message_erreur .= "Erreur n° " . mysqli_connect_errno() . " : " . mysqli_connect_error() . "<br>\n";
+} else {
+    mysqli_set_charset($connexion, "utf8");
+}
+
+// **********************************************
 // Traitement du formulaire
-//
-// Initialisation des variables contenant les données saisies dans le formulaire
-// et utilisées pour remplir le formulaire
-$Ncom = "";
+$NCom = "";
 $Ncli = "";
 $DateCom = "";
 
-// Gestion d'erreur manuelle : désactivation des rapports d'erreur
-error_reporting(0); // Désactivation du rapport d'erreurs de PHP
-mysqli_report(MYSQLI_REPORT_OFF); // Désactivation du rapport d'erreur mysqli
-// Connexion à la base de données bibliotheque du serveur localhost
-$connexion = mysqli_connect("localhost", "root", "", "bibliotheque");
-if ($connexion) {
-  // Changement du jeu de caractères pour utf-8 
-  mysqli_set_charset($connexion, "utf8");
-} else {
-  $message_erreur .= "Erreur de connexion<br>\n";
-  $message_erreur .= "  Erreur n° " . mysqli_connect_errno() . " : " . mysqli_connect_error() . "<br>\n";
+if (isset($_POST['ajouter'])) {
+    $NCom = trim(htmlspecialchars($_POST['NCom']));
+    $Ncli = trim(htmlspecialchars($_POST['Ncli']));
+    $DateCom = $_POST['DateCom'];
+
+    // Vérifications
+    if (empty($NCom)) {
+        $message_erreur .= "Le champ Numéro de Commande est obligatoire<br>\n";
+    }
+    if (empty($Ncli)) {
+        $message_erreur .= "Le champ Client est obligatoire<br>\n";
+    }
+    if (empty($DateCom)) {
+        $message_erreur .= "Le champ Date de Commande est obligatoire<br>\n";
+    }
+
+    // Si aucun message d'erreur
+    if (empty($message_erreur)) {
+        // Vérification si la commande existe déjà
+        $requete = "SELECT * FROM commande WHERE NCom = ?";
+        $stmt = mysqli_prepare($connexion, $requete);
+        mysqli_stmt_bind_param($stmt, "s", $NCom);
+        mysqli_stmt_execute($stmt);
+        $resultat = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($resultat) != 0) {
+            $message_erreur .= "Une commande avec le numéro $NCom existe déjà<br>\n";
+        } else {
+            // Insertion de la commande
+            $requete = "INSERT INTO commande (NCom, NCli, DateCom) VALUES (?, ?, ?)";
+            $stmt = mysqli_prepare($connexion, $requete);
+            mysqli_stmt_bind_param($stmt, "sss", $NCom, $Ncli, $DateCom);
+            $execution = mysqli_stmt_execute($stmt);
+
+            if ($execution) {
+                $message .= "Commande ajoutée avec succès !<br>\n";
+                // Réinitialiser les champs après succès
+                $NCom = "";
+                $Ncli = "";
+                $DateCom = "";
+            } else {
+                $message_erreur .= "Erreur lors de l'ajout de la commande.<br>\n";
+            }
+        }
+    }
 }
 
-if (isset($_POST['inscrire'])) {
-  //***************************
-  // Clic sur le bouton "S'inscrire" de valeur name="inscrire"
-  // Traitement du formulaire
-  // 
-  // Filtrage du contenu de $_POST et assignation à des variables locales
-  // htmlspecialchars() : Convertit les caractères spéciaux en entités HTML
-  // trim() : Supprime les espaces (ou d'autres caractères) en début et fin de chaîne
-  $Ncom = trim(htmlspecialchars($_POST['Ncom'], ENT_COMPAT));
-  $Ncli = trim(htmlspecialchars($_POST['Ncli'], ENT_COMPAT));
-  $DateCom = htmlspecialchars($_POST['DateCom']);
-
-  // Vérification de toutes les valeurs saisies
-  if (empty($Ncom)) {
-    $message_erreur .= "Le champ NCom est obligatoire<br>\n";
-  }  
-
-  if (empty($Ncli)) {
-    $message_erreur .= "Le champ Ncli est obligatoire<br>\n";
-  } elseif (!preg_match('/^([a-zA-Z]){1}[0-9]{3}$/u', $Ncli)) {
-    $message_erreur .= "Le Ncli doit comporter une lettre et 3 chiffres<br>\n";
-  }
-
-  if (empty($DateCom)) {
-    $message_erreur .= "La date est obligatoire<br>\n";
-  } elseif (!preg_match('/^\d{2}-\d{2}-\d{4}$/', $DateCom)) {
-    $message_erreur .= "Le format de la date doit être DD-MM-YYYY<br>\n";
-  } else {
-    $date = DateTime::createFromFormat('d-m-Y', $DateCom);
-    if (!$date || $date->format('d-m-Y') !== $DateCom) {
-        $message_erreur .= "La date n'est pas valide<br>\n";
+// **********************************************
+// Récupération de la liste des clients pour le menu déroulant
+$clients_options = "";
+$sql = "SELECT NCli FROM client";
+$result = mysqli_query($connexion, $sql);
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $clients_options .= "<option value='" . htmlspecialchars($row['NCli']) . "'>" . htmlspecialchars($row['NCli']) . "</option>\n";
     }
-  }
-
-  // Si aucun message d'erreur
-  if (empty($message_erreur)) {
-    // Requête d'insertion de l'utilisateur dans la table produit
-    $requete = "INSERT INTO commande (Ncom, Ncli, DateCom) VALUES (?, ?, ?)";
-    $stmt = mysqli_prepare($connexion, $requete);
-
-    // Liaison des paramètres
-    mysqli_stmt_bind_param($stmt, "sss", $Ncom, $Ncli, $DateCom);
-  
-    // Exécution de la requête
-    $resultat = mysqli_stmt_execute($stmt);
-
-//$requete = "INSERT INTO commande (Ncom, Ncli, DateCom) VALUES ('$Ncom', '$Ncli', '$DateCom')";
-
-    // Exécution de la requête
-    $resultat = mysqli_query($connexion, $requete);
-    if ($resultat) {
-      // Affiche un message de confirmation ainsi que les valeurs saisies
-      $message .= "<p>Nous avons pris en compte votre inscription.\n";
-      $message .= "<br>Voici les données saisies :</p>\n";
-      $message .= "<ul>\n";
-      $message .= "<li>Ncom : " . $Ncom . "</li>\n";
-      $message .= "<li>Ncli : " . $Ncli . "</li>\n";
-      $message .= "<li>DateCom : " . $DateCom . "</li>\n";
-      $message .= "</ul>\n";
-    } else {
-      $message_erreur .= "Erreur lors de l'insertion des données<br>\n";
-    }
-  }
 }
 
+// **********************************************
 // Déconnexion de la base de données
 if ($connexion) {
-  mysqli_close($connexion);
+    mysqli_close($connexion);
 }
-?> 
-<!doctype html>
-<!-- **************************************** -->
-<!-- Construction de la page HTML             --> 
+?>
 
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
-  </head>
-  <body>
-
+    <title>Ajouter une Commande</title>
+    <link rel="stylesheet" href="../CSS/header.css">
+    <style>
+        /* Style du formulaire */
+        .form-container {
+            width: 50%;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background: #218838;
+        }
+        .message {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: green;
+        }
+        .message-erreur {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
     <header>
-      <h1><a href="index.php">AJOUTER UNE COMMANDE</a></h1>
+        <h1>Ajouter une Commande</h1>
     </header>
-    <nav>
-      <!-- Insérer une barre de navigation ici -->
-    </nav>
+
     <main>
-      <?php
-      if (!empty($message_erreur) || !empty($message)) {
-        ?>
-        <!-- **************************************** -->
-        <!-- Messages éventuels de l'application      -->
-        <section>
-          <h2>Logs</h2>
-          <?php
-          if (!empty($message_erreur)) {
-            echo "<section>\n" . $message_erreur . "</section>\n";
-          }
-          if (!empty($message)) {
-            echo "<section>\n" . $message . "</section>\n";
-          }
-          ?>
-        </section>          
-        <?php
-      }
-      // S'il y a eu des erreurs ou si aucun appui sur le bouton "S'inscrire" 
-      if (!empty($message_erreur) || !isset($_POST['inscrire'])) {
-        ?>
-        <!--****************************************-->
-        <!--Affichage du formulaire-->
-        <section>     
-          <h2>Inscription</h2>
-          <form action="" method="POST">
-            <section>
-              <h3>Coordonnées</h3>
-   
-              <p>
-                <label for="Ncom">NCom </label>
-                <input type="text" id="Ncom" name="Ncom" placeholder="Ncom"  value="<?php echo $Ncom ?>" maxlength="5" required>
-              </p>
+        <div class="form-container">
+            <h2>Formulaire d'Ajout</h2>
 
-              <p>
-              <label for="DateCom">DateCom </label>
-              <input type="date" id="DateCom" name="DateCom" value="2018-06-12" min="2010-06-07" max="2025-06-14" />
-              </p>
+            <?php if (!empty($message_erreur)) { ?>
+                <p class="message-erreur"><?php echo $message_erreur; ?></p>
+            <?php } ?>
 
-              <p>
-                <?php 
-                $sql = "SELECT Ncli FROM client";
-                $result = $conn->query($sql);
-                ?>      
-                <label for="Ncli">Ncli </label>
-                
-                <input list="Ncli" id="Ncli" name="Ncli">
-                <p>
-                <?php
-                $connexion = mysqli_connect("localhost", "root", "", "bibliotheque");
-                $sql = "SELECT Ncli FROM client";
-                $result = mysqli_query($connexion, $sql);
-                ?>
-                <label for="Ncli">Ncli </label>
-                <input list="Ncli" id="Ncli" name="Ncli">
-                <datalist id="Ncli">
-                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                        <option value="<?= $row['Ncli']; ?>">
-                    <?php } ?>
-                </datalist>
-                <?php mysqli_close($connexion); ?>
-            </p>
-              </p>
+            <?php if (!empty($message)) { ?>
+                <p class="message"><?php echo $message; ?></p>
+            <?php } ?>
 
-              <p><input type="submit" name="inscrire" value="S'inscrire"></p>
-            </section>
-          </form>
-        </section>
-        <?php
-      }
-      ?> 
+            <form action="" method="POST">
+                <label for="NCom">Numéro de Commande :</label>
+                <input type="text" id="NCom" name="NCom" placeholder="Ex: 12345" value="<?php echo $NCom; ?>" required>
+
+                <label for="Ncli">Client :</label>
+                <select id="Ncli" name="Ncli" required>
+                    <option value="">Sélectionnez un client</option>
+                    <?php echo $clients_options; ?>
+                </select>
+
+                <label for="DateCom">Date de Commande :</label>
+                <input type="date" id="DateCom" name="DateCom" value="<?php echo $DateCom; ?>" required>
+
+                <input type="submit" name="ajouter" value="Ajouter la Commande">
+            </form>
+        </div>
     </main>
-    <footer>
-      <!-- Insérer un pied de page ici -->
-    </footer>
-  dy>
+
+    <?php require '../fotter.php'; ?>
+</body>
 </html>
