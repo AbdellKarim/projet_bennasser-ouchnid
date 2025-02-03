@@ -21,28 +21,29 @@
         <ul>
             <li><a href="#">Abonnés</a>
                 <ul>
-              <?php  define('BASE_URL', '/projet_bennasser-ouchnid/'); ?>
-                    <li><a href= '/Clients/liste.php' >Liste des clients</a></li>
-                    <li><a href= '/Clients/ajouter.php'  >Ajouter des clients</a></li>
-                    <li><a href= '/Clients/modifier.php'>Modification</a></li>
-                    <li><a href= '/Clients/supprimer.php'>Suppression</a></li>
+
+              <?php  define('BASE_URL',  "/projet_bennasser-ouchnid/"); ?>
+                    <li><a href="./Clients/liste.php">Liste des clients</a></li>
+                    <li><a href= './Clients/ajouter.php'  >Ajouter des clients</a></li>
+                    <li><a href= './Clients/modifier.php'>Modification</a></li>
+                    <li><a href= './Clients/supprimer.php'>Suppression</a></li>
                 </ul>
             </li>
             <li><a href="#">Commandes</a>
                 <ul>
-                    <li><a href= '/Commandes/liste.php' >Liste</a></li>
-                    <li><a href= '/Commandes/ajouter.php'   >Ajouter</a></li>
-                    <li><a href= '/Commandes/modifier.php'   >Modification</a></li>
-                    <li><a href= '/Commandes/supprimer.php'   >Suppression</a></li>
-                    <li><a href= '/SCRIPTS/DB.php'   >Facture</a></li>
+                    <li><a href= './Commandes/liste.php' >Liste</a></li>
+                    <li><a href= './Commandes/ajouter.php'   >Ajouter</a></li>
+                    <li><a href= './Commandes/modifier.php'   >Modification</a></li>
+                    <li><a href= './Commandes/supprimer.php'   >Suppression</a></li>
+                    <li><a href= './SCRIPTS/DB.php'   >Facture</a></li>
                 </ul>
             </li>
             <li><a href="#">Produit</a>
                 <ul>
-                    <li><a href='/Produits/liste.php'   >Liste</a></li>
-                    <li><a href='/Produits/ajouter.php'   >Ajouter des produits</a></li>
-                    <li><a href='/Produits/modifier.php'   >Modification</a></li>
-                    <li><a href='/Produits/supprimer.php'   >Suppression</a></li>
+                    <li><a href='./Produits/liste.php'   >Liste</a></li>
+                    <li><a href='./Produits/ajouter.php'   >Ajouter des produits</a></li>
+                    <li><a href='./Produits/modifier.php'   >Modification</a></li>
+                    <li><a href='./Produits/supprimer.php'   >Suppression</a></li>
                 </ul>
             </li>
             <li><a href="#">Connexion</a>

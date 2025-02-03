@@ -1,10 +1,91 @@
+
+
 <!doctype html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <style>
+</head>
+<body>
+    <div class="container">
+        <h1>LOGIN</h1>
+        <form action="login.php" method="POST">
+            <table>
+                <tr>
+                    <td><label for="pseudo">Pseudo</label></td>
+                    <td><input type="text" id="pseudo" name="pseudo" placeholder="pseudo" required></td>
+                </tr>
+                <tr>
+                    <td><label for="passe">Mot de passe</label></td>
+                    <td><input type="password" id="passe" name="passe" placeholder="mot de passe" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <input type="submit" name="connecter" value="Se connecter">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>
+
+
+<?php 
+// Connexion à la base de données
+$connexion = new mysqli("localhost", "root", "", "clicom");
+if ($connexion->connect_error) {
+    //stopper l'exécution de script
+    die("Erreur de connexion : " . $connexion->connect_error);
+}
+mysqli_set_charset($connexion, "utf8");
+
+
+
+// Traitement du formulaire
+if (isset($_POST['connecter'])) {
+    $pseudo = htmlspecialchars(trim($_POST['pseudo']));
+    $passe = trim($_POST['passe']);
+
+    // Vérifier les champs
+    if (!empty($pseudo) && !empty($passe)) {
+        // Préparer la requête SQL
+        $requete = "SELECT * FROM utilisateur WHERE Pseudo = ? AND Password = ?";
+        $stmt = mysqli_prepare($connexion, $requete);
+        mysqli_stmt_bind_param($stmt, "ss", $pseudo, $passe);
+        mysqli_stmt_execute($stmt);
+        $resultat = mysqli_stmt_get_result(statement: $stmt);
+
+        // Vérifier si l'utilisateur existe
+        if ($ligne = mysqli_fetch_assoc($resultat)) {
+            // Démarrer une session et enregistrer les informations
+            session_start();
+            $_SESSION['idutilisateur'] = $ligne['IdUtilisateur'];
+            $_SESSION['pseudo'] = $ligne['Pseudo'];
+            $_SESSION['nom'] = $ligne['Nom'];
+            $_SESSION['prenom'] = $ligne['Prenom'];
+
+            // Redirection vers la page contenant le header
+            header('Location: index.php');
+            exit();
+        } else {
+            echo "Pseudo ou mot de passe incorrect.";
+        }
+    } else {
+        echo "Tous les champs sont obligatoires.";
+    }
+}
+
+// Fermer la connexion
+$connexion->close();
+?>
+
+
+
+<style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -74,77 +155,3 @@
             font-size: 0.8rem;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome</h1>
-        <form action="login.php" method="POST">
-            <table>
-                <tr>
-                    <td><label for="pseudo">Pseudo</label></td>
-                    <td><input type="text" id="pseudo" name="pseudo" placeholder="Entrez votre pseudo" required></td>
-                </tr>
-                <tr>
-                    <td><label for="passe">Mot de passe</label></td>
-                    <td><input type="password" id="passe" name="passe" placeholder="Entrez votre mot de passe" required></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <input type="submit" name="connecter" value="Se connecter">
-                    </td>
-                </tr>
-            </table>
-        </form>
-        <footer>
-            &copy; 2025 - Clicom Project. Tous droits réservés.
-        </footer>
-    </div>
-</body>
-</html>
-
-
-<?php
-// Connexion à la base de données
-$connexion = new mysqli("localhost", "root", "", "clicom");
-if ($connexion->connect_error) {
-    die("Erreur de connexion : " . $connexion->connect_error);
-}
-mysqli_set_charset($connexion, "utf8");
-
-// Traitement du formulaire
-if (isset($_POST['connecter'])) {
-    $pseudo = htmlspecialchars(trim($_POST['pseudo']));
-    $passe = trim($_POST['passe']);
-
-    // Vérifier les champs
-    if (!empty($pseudo) && !empty($passe)) {
-        // Préparer la requête SQL
-        $requete = "SELECT * FROM utilisateur WHERE Pseudo = ? AND Password = ?";
-        $stmt = mysqli_prepare($connexion, $requete);
-        mysqli_stmt_bind_param($stmt, "ss", $pseudo, $passe);
-        mysqli_stmt_execute($stmt);
-        $resultat = mysqli_stmt_get_result($stmt);
-
-        // Vérifier si l'utilisateur existe
-        if ($ligne = mysqli_fetch_assoc($resultat)) {
-            // Démarrer une session et enregistrer les informations
-            session_start();
-            $_SESSION['idutilisateur'] = $ligne['IdUtilisateur'];
-            $_SESSION['pseudo'] = $ligne['Pseudo'];
-            $_SESSION['nom'] = $ligne['Nom'];
-            $_SESSION['prenom'] = $ligne['Prenom'];
-
-            // Redirection vers la page contenant le header
-            header('Location: index.php');
-            exit();
-        } else {
-            echo "Pseudo ou mot de passe incorrect.";
-        }
-    } else {
-        echo "Tous les champs sont obligatoires.";
-    }
-}
-
-// Fermer la connexion
-$connexion->close();
-?>

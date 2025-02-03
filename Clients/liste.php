@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <?php
 require '../auth.php'; // Vérifier si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header
@@ -19,6 +25,7 @@ if ($connexion) {
     $message_erreur .= "Erreur de connexion à la base de données<br>\n";
     $message_erreur .= "Erreur n° " . mysqli_connect_errno() . " : " . mysqli_connect_error() . "<br>\n";
 }
+
 
 // **********************************************
 // Récupération des clients
@@ -71,10 +78,11 @@ if (empty($message_erreur)) {
 
 // **********************************************
 // Déconnexion de la base de données
-if ($connexion) {
-    mysqli_close($connexion);
-}
+
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -82,7 +90,37 @@ if ($connexion) {
     <meta charset="UTF-8">
     <title>Liste des clients</title>
     <link rel="stylesheet" href="../CSS/header.css">
-    <style>
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Liste des clients</h1>
+    </header>
+    <main>
+        <a href="ajouter.php" class="add-btn">Ajouter un Client</a>
+        <!-- Affichage de la table -->
+        <?php if (!empty($tableau_clients)) { ?>
+            <section>
+                <?php echo $tableau_clients; ?>
+            </section>
+        <?php } ?>
+    </main>
+
+
+    <?php require '../fotter.php';
+    if ($connexion) {
+        mysqli_close($connexion);
+    } ?>
+</body>
+</html>
+
+
+
+
+
+
+<style>
         /* Style du tableau */
         table {
             width: 90%;
@@ -152,40 +190,3 @@ if ($connexion) {
         .add-btn:hover {
             background-color: #218838;
         }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Liste des clients</h1>
-    </header>
-
-    <main>
-        <a href="ajouter.php" class="add-btn">Ajouter un Client</a>
-
-        <!-- Affichage des messages -->
-        <?php if (!empty($message_erreur) || !empty($message)) { ?>
-            <section>
-                <h2>Logs</h2>
-                <?php
-                if (!empty($message_erreur)) {
-                    echo "<section style='color: red;'>\n" . $message_erreur . "</section>\n";
-                }
-                if (!empty($message)) {
-                    echo "<section style='color: green;'>\n" . $message . "</section>\n";
-                }
-                ?>
-            </section>
-        <?php } ?>
-
-        <!-- Affichage de la table -->
-        <?php if (!empty($tableau_clients)) { ?>
-            <section>
-                <?php echo $tableau_clients; ?>
-            </section>
-        <?php } ?>
-    </main>
-
-    <?php require '../fotter.php'; ?>
-    <td><a href="modifier_client.php?id=<?= $ligne['NCli']; ?>">Modifier</a></td>
-</body>
-</html>

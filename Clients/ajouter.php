@@ -2,12 +2,12 @@
 require '../auth.php'; // Vérifie si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header
 
-// **********************************************
+// *
 // Initialisation des messages
 $message = "";
 $message_erreur = "";
 
-// **********************************************
+// 
 // Connexion à la base de données
 $connexion = mysqli_connect("localhost", "root", "", "clicom");
 
@@ -16,7 +16,7 @@ if (!$connexion) {
 }
 mysqli_set_charset($connexion, "utf8");
 
-// **********************************************
+// ---------------------------------------------------------------------------------------------------------------------------------
 // Traitement du formulaire d'ajout
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $NCli = mysqli_real_escape_string($connexion, trim($_POST['NCli']));
@@ -35,11 +35,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message_erreur .= "L'ID Client doit être une lettre suivie de 3 chiffres (ex: A123).<br>\n";
     } elseif (!preg_match('/^[0-9]{5}$/', $CP)) {
         $message_erreur .= "Le Code Postal doit contenir 5 chiffres.<br>\n";
+    } elseif (!preg_match('/^[A-Z][0-9]$/', $CAT)) {
+        $message_erreur .= "Le Code Postal doit contenir 5 chiffres.<br>\n";
     } elseif (!is_numeric($Compte)) {
         $message_erreur .= "Le solde du compte doit être un nombre valide.<br>\n";
     }
 
-    // Si aucune erreur, insertion dans la base de données
+
+// ---------------------------------------------------------------------------------------------------------------------------------------
+
+$ligne = mysqli_query($connexion, "SELECT COUNT(*) AS total FROM client");
+$Colone = mysqli_fetch_assoc($ligne);
+$nombre_clients = $Colone['total'];
+
+if ($nombre_clients >= 20) {  // Max 20 Client 
+    $message_erreur .= "Le nombre maximum de 20 clients a été atteint.<br>\n";
+} else {// Si aucune erreur, insertion dans la base de données
+
+
     if (empty($message_erreur)) {
         $requete = "INSERT INTO client (NCli, Nom, Prenom, Adresse, CP, Ville, CAT, Compte) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -49,15 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($execution) {
             $message .= "Client ajouté avec succès !<br>\n";
-            header("Location: liste.php?success=ajout");
-            exit();
+            echo "<script>window.location.href='liste.php';</script>";
         } else {
             $message_erreur .= "Erreur lors de l'ajout du client.<br>\n";
         }
     }
 }
 
-// **********************************************
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------
 // Déconnexion de la base de données
 mysqli_close($connexion);
 ?>
@@ -116,21 +130,12 @@ mysqli_close($connexion);
     </style>
 </head>
 <body>
-    <header>
-        <h1>Ajouter un Client</h1>
-    </header>
+
 
     <main>
         <div class="form-container">
             <h2>Formulaire d'Ajout</h2>
 
-            <?php if (!empty($message_erreur)) { ?>
-                <p class="message-erreur"><?php echo $message_erreur; ?></p>
-            <?php } ?>
-
-            <?php if (!empty($message)) { ?>
-                <p class="message"><?php echo $message; ?></p>
-            <?php } ?>
 
             <form action="" method="POST">
                 <label for="NCli">ID Client :</label>
@@ -146,13 +151,13 @@ mysqli_close($connexion);
                 <input type="text" id="Adresse" name="Adresse" required>
 
                 <label for="CP">Code Postal :</label>
-                <input type="text" id="CP" name="CP" required>
+                <input type="text" id="CP" name="CP"  placeholder="Ex: 51100" required>
 
                 <label for="Ville">Ville :</label>
                 <input type="text" id="Ville" name="Ville" required>
 
                 <label for="CAT">Catégorie :</label>
-                <input type="text" id="CAT" name="CAT">
+                <input type="text" id="CAT" name="CAT" placeholder="Ex = C1">
 
                 <label for="Compte">Solde du Compte (€) :</label>
                 <input type="number" step="0.01" id="Compte" name="Compte" required>
