@@ -62,7 +62,7 @@ if (empty($message_erreur)) {
                                         <td>" . htmlspecialchars($ligne['CAT']) . "</td>
                                         <td>" . htmlspecialchars($ligne['Compte']) . "</td>
                                         <td class='actions'>
-                                            <a href='modifier.php?id=" . $ligne['NCli'] . "' class='edit'>Modifier</a>
+                                            <a href='modifier.php?id=" . $ligne['NCli'] . "' class='edit'>Modifier</a> <!-- REscupere L'ID Directement -->
                                             <a href='supprimer.php?id=" . $ligne['NCli'] . "' class='delete' onclick='return confirm(\"Voulez-vous vraiment supprimer ce client ?\");'>Supprimer</a>
                                         </td>
                                     </tr>\n";

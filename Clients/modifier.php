@@ -1,3 +1,6 @@
+
+
+
 <?php
 require '../auth.php'; // Vérifie si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header
@@ -16,7 +19,8 @@ if (!$connexion) {
 }
 mysqli_set_charset($connexion, "utf8");
 
-// **********************************************
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Vérification de l'ID client dans l'URL
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $NCli = mysqli_real_escape_string($connexion, $_GET['id']);
@@ -43,7 +47,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     $message_erreur .= "Aucun client spécifié.<br>";
 }
 
-// **********************************************
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Traitement du formulaire de modification
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Nom = mysqli_real_escape_string($connexion, trim($_POST['Nom']));
@@ -91,52 +95,7 @@ mysqli_close($connexion);
     <meta charset="UTF-8">
     <title>Modifier un Client</title>
     <link rel="stylesheet" href="../CSS/header.css">
-    <style>
-        .form-container {
-            width: 50%;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-        .form-container h2 {
-            text-align: center;
-            color: #007bff;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        input[type="submit"] {
-            width: 100%;
-            background: #ffc107;
-            color: black;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        input[type="submit"]:hover {
-            background: #e0a800;
-        }
-        .message {
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: green;
-        }
-        .message-erreur {
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: red;
-        }
-    </style>
+
 </head>
 <body>
     <header>
@@ -185,3 +144,51 @@ mysqli_close($connexion);
     <?php require '../fotter.php'; ?>
 </body>
 </html>
+
+
+<style>
+        .form-container {
+            width: 50%;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background: #ffc107;
+            color: black;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background: #e0a800;
+        }
+        .message {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: green;
+        }
+        .message-erreur {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: red;
+        }
+    </style>
