@@ -36,7 +36,7 @@
 
 <?php 
 // Connexion à la base de données
-$connexion = new mysqli("localhost", "root", "", "clicom");
+$connexion = new mysqli("localhost", "root", "", database: "clicom");
 if ($connexion->connect_error) {
     //stopper l'exécution de script
     die("Erreur de connexion : " . $connexion->connect_error);

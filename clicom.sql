@@ -25,7 +25,21 @@ create table client (
 
 alter table client default charset=utf8 collate utf8_general_ci ;
 
+CREATE TABLE `utilisateur` (
+  `IdUtilisateur` int(100) NOT NULL,
+  `Pseudo` varchar(15) NOT NULL,
+  `Password` varchar(15) NOT NULL,
+  `Etat` varchar(15) NOT NULL,
+  `Statut` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 --
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`IdUtilisateur`, `Pseudo`, `Password`, `Etat`, `Statut`) VALUES
+(1, 'Admin', 'admin', 'Actif', 'Suerviseur');
+
 -- Structure de la table produit
 --
 
@@ -140,3 +154,14 @@ insert into detail (NCom, NPro, QCom) values
 ('30188', 'CLE21', '2'),
 ('30188', 'CLE22', '7'),
 ('30188', 'IMP01', '2');
+
+
+CREATE TABLE utilisateur (
+    
+    Pseudo VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(64) NOT NULL, -- Stockage du mot de passe 
+    
+);
+
+INSERT INTO utilisateur (Pseudo, Password) 
+VALUES ('admin', MD5('admin'));
