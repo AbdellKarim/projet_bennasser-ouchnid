@@ -139,9 +139,7 @@ if ($connexion) {
     </style>
 </head>
 <body>
-    <header>
-        <h1>Ajouter un Produit</h1>
-    </header>
+    
 
     <main>
         <div class="form-container">

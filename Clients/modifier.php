@@ -98,9 +98,7 @@ mysqli_close($connexion);
 
 </head>
 <body>
-    <header>
-        <h1>Modifier un Client</h1>
-    </header>
+
 
     <main>
         <div class="form-container">

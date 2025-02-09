@@ -32,7 +32,11 @@ if (isset($_POST['ajouter'])) {
     // Vérifications
     if (empty($NCom)) {
         $message_erreur .= "Le champ Numéro de Commande est obligatoire<br>\n";
+    }   else if (!preg_match('/^\d{1,6}$/', $NCom)) {
+        $message_erreur .= "Le Numéro de Commande doit contenir uniquement des chiffres (1 à 6 chiffres maximum)<br>\n";
     }
+
+
     if (empty($Ncli)) {
         $message_erreur .= "Le champ Client est obligatoire<br>\n";
     }
@@ -144,9 +148,7 @@ if ($connexion) {
     </style>
 </head>
 <body>
-    <header>
-        <h1>Ajouter une Commande</h1>
-    </header>
+   
 
     <main>
         <div class="form-container">

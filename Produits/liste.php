@@ -144,9 +144,7 @@ if ($connexion) {
     </style>
 </head>
 <body>
-    <header>
-        <h1>Liste des Produits</h1>
-    </header>
+   
 
     <main>
         <a href="ajouter.php" class="add-btn">Ajouter un Produit</a>

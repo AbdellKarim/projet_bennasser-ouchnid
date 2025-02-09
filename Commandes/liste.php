@@ -142,9 +142,7 @@ if ($connexion) {
     </style>
 </head>
 <body>
-    <header>
-        <h1>Liste des Commandes</h1>
-    </header>
+  
 
     <main>
         <a href="ajouter.php" class="add-btn">Ajouter une Commande</a>

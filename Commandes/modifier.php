@@ -117,10 +117,7 @@ mysqli_close($connexion);
     </style>
 </head>
 <body>
-    <header>
-        <h1>Modifier une Commande</h1>
-    </header>
-
+  
     <main>
         <div class="form-container">
             <h2>Formulaire de Modification</h2>
