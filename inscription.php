@@ -65,16 +65,16 @@ echo $Passe1;
 if ($resultat) {
     
     $nombre_utilisateurs = $row['total'];
-    if ($nombre_utilisateurs == 0) {
+    if (true) {
         $insertion = "INSERT INTO utilisateur (Name, Prenom, Pseudo, Password, Statut) VALUES (?, ?, ?, ?, ?)";
        $stmt1 = mysqli_prepare($connexion, $insertion);
        mysqli_stmt_bind_param($stmt1,"sssss", $Name, $Prenom, $pseudo, $passe_chiffre, $Statut);
        mysqli_stmt_execute($stmt1);
 
 
-
        header('Location: login.php');
     }
+
 
     }
     

@@ -37,6 +37,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         echo "Client introuvable.";
     }
 } else {
+    
     echo "ID client non spécifié.";
 }
 

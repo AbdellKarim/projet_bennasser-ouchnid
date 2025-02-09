@@ -94,9 +94,7 @@ if (empty($message_erreur)) {
     </style>
 </head>
 <body>
-    <header>
-        <h1>Liste des clients</h1>
-    </header>
+
     <main>
         <a href="ajouter.php" class="add-btn">Ajouter un Client</a>
         <!-- Affichage de la table -->

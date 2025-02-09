@@ -116,25 +116,25 @@ mysqli_close($connexion);
 
             <form action="" method="POST">
                 <label for="Nom">Nom :</label>
-                <input type="text" id="Nom" name="Nom" value="<?php echo $Nom; ?>" required>
+                <input type="text" id="Nom" name="Nom" value="<?php if(isset($Nom)){echo $Nom;} ?>" required>
 
                 <label for="Prenom">Prénom :</label>
-                <input type="text" id="Prenom" name="Prenom" value="<?php echo $Prenom; ?>">
+                <input type="text" id="Prenom" name="Prenom" value="<?php if(isset($Prenom)){echo $Prenom; }?>">
 
                 <label for="Adresse">Adresse :</label>
-                <input type="text" id="Adresse" name="Adresse" value="<?php echo $Adresse; ?>" required>
+                <input type="text" id="Adresse" name="Adresse" value="<?php if(isset($Prenom)){ echo $Prenom; }?>" required>
 
                 <label for="CP">Code Postal :</label>
-                <input type="text" id="CP" name="CP" value="<?php echo $CP; ?>" required>
+                <input type="text" id="CP" name="CP" value="<?php if(isset($CP)){ echo $CP;} ?>" required>
 
                 <label for="Ville">Ville :</label>
-                <input type="text" id="Ville" name="Ville" value="<?php echo $Ville; ?>" required>
+                <input type="text" id="Ville" name="Ville" value="<?php if(isset($Ville)){ echo $Ville;} ?>" required>
 
                 <label for="CAT">Catégorie :</label>
-                <input type="text" id="CAT" name="CAT" value="<?php echo $CAT; ?>">
+                <input type="text" id="CAT" name="CAT" value="<?php if(isset($CAT)){ echo $CAT;} ?>">
 
                 <label for="Compte">Solde du Compte (€) :</label>
-                <input type="number" step="0.01" id="Compte" name="Compte" value="<?php echo $Compte; ?>" required>
+                <input type="number" step="0.01" id="Compte" name="Compte" value="<?php if(isset($Compte)){ echo $Compte;} ?>" required>
 
                 <input type="submit" value="Modifier le Client">
             </form>
