@@ -1,3 +1,74 @@
+ <?php 
+// Connexion à la base de données
+$connexion = new mysqli("localhost", "root", "", database: "clicom");
+mysqli_set_charset($connexion, "utf8");
+
+session_start();
+
+
+// Traitement du formulaire
+if (isset($_POST['Login'])) {
+    $pseudo = htmlspecialchars(trim($_POST['pseudo']));
+    $passe = trim($_POST['passe']);
+
+
+
+
+    if (empty($pseudo)) {
+        $message_erreur .= "Le champ pseudo est obligatoire<br>\n";
+      }
+    
+      if (empty($passe)) {
+        $message_erreur .= "Le mot de passe est obligatoire<br>\n";
+      }
+    
+
+
+
+    // Vérifier les champs
+        // Préparer la requête SQL
+        $requete = "SELECT * FROM utilisateur WHERE Pseudo = ?";
+
+        $stmt = mysqli_prepare($connexion, $requete);
+        mysqli_stmt_bind_param($stmt, "s", $pseudo);
+        mysqli_stmt_execute($stmt);
+        $resultat = mysqli_stmt_get_result(statement: $stmt);
+        $ligne = mysqli_fetch_assoc($resultat);
+   
+    
+        // Vérifier si l'utilisateur existe
+        if ( password_verify($passe, $ligne['Password'])) {
+            // Démarrer une session et enregistrer les informations
+            $_SESSION['pseudo'] = $ligne['Pseudo'];
+            $_SESSION['Password'] = $ligne['Password'];
+            echo 'gooood';
+            // Redirection vers la page contenant le header
+            header('Location: index.php');
+            exit();
+        } else {
+            echo "Pseudo ou mot de passe incorrect.";
+        }
+
+}
+
+
+
+
+if (isset($_POST['Inscription'])) {
+
+            header('Location: inscription.php');
+
+}
+
+
+
+// Fermer la connexion
+$connexion->close();
+?>
+
+
+
+
 
 
 <!doctype html>
@@ -10,7 +81,7 @@
 <body>
     <div class="container">
         <h1>LOGIN</h1>
-        <form action="login.php" method="POST">
+        <form action="" method="POST">
             <table>
 
 
@@ -40,59 +111,6 @@
 </body>
 </html>
 
-
-<?php 
-// Connexion à la base de données
-$connexion = new mysqli("localhost", "root", "", database: "clicom");
-mysqli_set_charset($connexion, "utf8");
-
-
-
-// Traitement du formulaire
-if (isset($_POST['Login'])) {
-    $pseudo = htmlspecialchars(trim($_POST['pseudo']));
-    $passe = trim($_POST['passe']);
-
-    // Vérifier les champs
-    if (!empty($pseudo) && !empty($passe)) {
-        // Préparer la requête SQL
-        $requete = "SELECT * FROM utilisateur WHERE Pseudo = ? AND Password = ?";
-        $stmt = mysqli_prepare($connexion, $requete);
-        mysqli_stmt_bind_param($stmt, "ss", $pseudo, $passe);
-        mysqli_stmt_execute($stmt);
-        $resultat = mysqli_stmt_get_result(statement: $stmt);
-
-        // Vérifier si l'utilisateur existe
-        if ($ligne = mysqli_fetch_assoc($resultat)) {
-            // Démarrer une session et enregistrer les informations
-            session_start();
-            $_SESSION['pseudo'] = $ligne['Pseudo'];
-            $_SESSION['Password'] = $ligne['Password'];
-     
-            // Redirection vers la page contenant le header
-            header('Location: index.php');
-            exit();
-        } else {
-            echo "Pseudo ou mot de passe incorrect.";
-        }
-    } else {
-        echo "Veuillez saisir les informations suivantes :";
-    }
-}
-
-
-
-if (isset($_POST['Inscription'])) {
-
-            header('Location: inscription.php');
-
-}
-
-
-
-// Fermer la connexion
-$connexion->close();
-?>
 
 
 

@@ -5,7 +5,7 @@
 session_start();// Démarrer
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['idutilisateur'])) {
+if (!isset($_SESSION['pseudo'])) {
     // Rediriger vers la page de connexion si non connecté
     header('Location: login.php');
     exit();

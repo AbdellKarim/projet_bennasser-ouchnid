@@ -73,7 +73,7 @@ if ($resultat) {
 
 
 
-
+       header('Location: login.php');
     }
 
     }
