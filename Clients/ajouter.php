@@ -52,6 +52,18 @@ if ($nombre_clients >= 20) {  // Max 20 Client
     $message_erreur .= "Le nombre maximum de 20 clients a été atteint.<br>\n";
 } else {// Si aucune erreur, insertion dans la base de données
 
+    $chekNli = "SELECT * FROM client WHERE  NCli = ?";
+    $stmt = mysqli_prepare($connexion, $chekNli);
+    mysqli_stmt_bind_param($stmt, "s", $NCli);
+    mysqli_stmt_execute($stmt);
+    $resultat = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($resultat) != 0) {
+        $message_erreur .= "Une commande avec le numéro $NCli existe déjà<br>\n";
+    } else{
+
+
+
 
     if (empty($message_erreur)) {
         $requete = "INSERT INTO client (NCli, Nom, Prenom, Adresse, CP, Ville, CAT, Compte) 
@@ -68,9 +80,9 @@ if ($nombre_clients >= 20) {  // Max 20 Client
         }
     }
 }
-
 }
 
+}
 //---------------------------------------------------------------------------------------------------------------------------------------
 // Déconnexion de la base de données
 mysqli_close($connexion);
@@ -136,7 +148,9 @@ mysqli_close($connexion);
         <div class="form-container">
             <h2>Formulaire d'Ajout</h2>
 
-
+            <?php if (!empty($message_erreur)) { ?>
+                <p class="message-erreur"><?php echo $message_erreur; ?></p>
+            <?php } ?>
             <form action="" method="POST">
                 <label for="NCli">ID Client :</label>
                 <input type="text" id="NCli" name="NCli" placeholder="Ex: A123" required>
