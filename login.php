@@ -12,19 +12,26 @@
         <h1>LOGIN</h1>
         <form action="login.php" method="POST">
             <table>
-                <tr>
-                    <td><label for="pseudo">Pseudo</label></td>
-                    <td><input type="text" id="pseudo" name="pseudo" placeholder="pseudo" required></td>
+
+
                 </tr>
-                <tr>
-                    <td><label for="passe">Mot de passe</label></td>
-                    <td><input type="password" id="passe" name="passe" placeholder="mot de passe" required></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <input type="submit" name="connecter" value="Se connecter">
-                    </td>
-                </tr>
+
+
+                <form action="" method="POST">
+                <label for="NCom">pseudo</label>
+                <input type="text" id="pseudo" name="pseudo" placeholder="Ex: 12345"  >
+
+  
+                <label for="DateCom">Mot de passe </label>
+                <input type="password" id="passe" name="passe"  >
+
+                <input type="submit" name="Login" value="Login">
+                <input type="submit" name="Inscription" value="Inscription">
+            </form>
+
+
+
+
             </table>
         </form>
         <footer>
@@ -37,16 +44,12 @@
 <?php 
 // Connexion à la base de données
 $connexion = new mysqli("localhost", "root", "", database: "clicom");
-if ($connexion->connect_error) {
-    //stopper l'exécution de script
-    die("Erreur de connexion : " . $connexion->connect_error);
-}
 mysqli_set_charset($connexion, "utf8");
 
 
 
 // Traitement du formulaire
-if (isset($_POST['connecter'])) {
+if (isset($_POST['Login'])) {
     $pseudo = htmlspecialchars(trim($_POST['pseudo']));
     $passe = trim($_POST['passe']);
 
@@ -63,11 +66,9 @@ if (isset($_POST['connecter'])) {
         if ($ligne = mysqli_fetch_assoc($resultat)) {
             // Démarrer une session et enregistrer les informations
             session_start();
-            $_SESSION['idutilisateur'] = $ligne['IdUtilisateur'];
             $_SESSION['pseudo'] = $ligne['Pseudo'];
-            $_SESSION['nom'] = $ligne['Nom'];
-            $_SESSION['prenom'] = $ligne['Prenom'];
-
+            $_SESSION['Password'] = $ligne['Password'];
+     
             // Redirection vers la page contenant le header
             header('Location: index.php');
             exit();
@@ -75,13 +76,25 @@ if (isset($_POST['connecter'])) {
             echo "Pseudo ou mot de passe incorrect.";
         }
     } else {
-        echo "Tous les champs sont obligatoires.";
+        echo "Veuillez saisir les informations suivantes :";
     }
 }
+
+
+
+if (isset($_POST['Inscription'])) {
+
+            header('Location: inscription.php');
+
+}
+
+
 
 // Fermer la connexion
 $connexion->close();
 ?>
+
+
 
 
 

@@ -66,8 +66,8 @@ if (empty($message_erreur)) {
         $checked_h = (strcmp($utilisateur['Sexe'], "H") == 0) ? "checked" : "";
         $checked_f = (strcmp($utilisateur['Sexe'], "F") == 0) ? "checked" : "";
         $Ncom = $utilisateur['Nom'];
-       $Ncli = $utilisateur['Prenom'];
-       $$DateCom = $utilisateur['Mail'];
+        $Ncli = $utilisateur['Prenom'];
+        $$DateCom = $utilisateur['Mail'];
         $telephone = $utilisateur['Telephone'];
         $pseudo = $utilisateur['Pseudo'];
         $passe1 = "";

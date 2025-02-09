@@ -25,7 +25,7 @@ if (!isset($_SESSION['idutilisateur'])) {
         <h1>Bienvenue, dans Notre Projet !</h1>
         <p>BenNasser, Ouchnid</p>
 
-        <p><a href="./UTILISATEURS/logout.php">Se déconnecter</a></p>
+        <p><a href="logout.php">Se déconnecter</a></p>
     </div>
 </body>
 </html>
