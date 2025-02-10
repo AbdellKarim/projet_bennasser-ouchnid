@@ -1,6 +1,4 @@
 
-
-
 <?php
 require '../auth.php'; // Vérifie si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header
@@ -15,7 +13,7 @@ $message_erreur = "";
 $connexion = mysqli_connect("localhost", "root", "", "clicom");
 
 if (!$connexion) {
-    die("Erreur de connexion à la base de données : " . mysqli_connect_error());
+    $message_erreur .= " Erreur de connexion à la base de données : " . mysqli_connect_error();
 }
 mysqli_set_charset($connexion, "utf8");
 
@@ -31,7 +29,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     mysqli_stmt_bind_param($stmt, "s", $NCli);
     mysqli_stmt_execute($stmt);
     $resultat = mysqli_stmt_get_result($stmt);
-
+    //recueper Data 
     if ($ligne = mysqli_fetch_assoc($resultat)) {
         $Nom = $ligne['Nom'];
         $Prenom = $ligne['Prenom'];
@@ -94,7 +92,7 @@ mysqli_close($connexion);
 <head>
     <meta charset="UTF-8">
     <title>Modifier un Client</title>
-    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="">
 
 </head>
 <body>

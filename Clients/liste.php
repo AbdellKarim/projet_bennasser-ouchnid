@@ -1,16 +1,11 @@
 
-
-
-
-
-
 <?php
 require '../auth.php'; // Vérifier si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header
 
 
 // **********************************************
-// Initialisation des variables pour les messages
+
 $message = "";
 $message_erreur = "";
 
@@ -34,7 +29,7 @@ if (empty($message_erreur)) {
     $resultat = mysqli_query($connexion, $requete);
 
     if ($resultat) {
-        if (mysqli_num_rows($resultat) == 0) {
+        if (mysqli_num_rows($resultat) == 0) { //verification les nombre des colones
             $message .= "Aucun client trouvé<br>\n";
         } else {
             // Construction du tableau
@@ -81,15 +76,12 @@ if (empty($message_erreur)) {
 
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Liste des clients</title>
-    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="">
 
     </style>
 </head>

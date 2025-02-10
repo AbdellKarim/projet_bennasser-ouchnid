@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // ---------------------------------------------------------------------------------------------------------------------------------------
-
+//le nombre total d'enregistrements dans la table
 $ligne = mysqli_query($connexion, "SELECT COUNT(*) AS total FROM client");
 $Colone = mysqli_fetch_assoc($ligne);
 $nombre_clients = $Colone['total'];
@@ -58,7 +58,7 @@ if ($nombre_clients >= 20) {  // Max 20 Client
     mysqli_stmt_execute($stmt);
     $resultat = mysqli_stmt_get_result($stmt);
 
-    if (mysqli_num_rows($resultat) != 0) {
+    if (mysqli_num_rows($resultat) != 0) { // verification si NCli est deja existe 
         $message_erreur .= "Une commande avec le numéro $NCli existe déjà<br>\n";
     } else{
 
@@ -73,8 +73,8 @@ if ($nombre_clients >= 20) {  // Max 20 Client
         $execution = mysqli_stmt_execute($stmt);
 
         if ($execution) {
-            $message .= "Client ajouté avec succès !<br>\n";
-            echo "<script>window.location.href='liste.php';</script>";
+            $message .= "Client ajouté avec succès <br>\n";
+            echo "<script>window.location.href='liste.php';</script>";// revenir a la page liste.php
         } else {
             $message_erreur .= "Erreur lors de l'ajout du client.<br>\n";
         }
@@ -93,7 +93,7 @@ mysqli_close($connexion);
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Client</title>
-    <link rel="stylesheet" href="../CSS/header.css">
+    <link rel="stylesheet" href="">
     <style>
         .form-container {
             width: 50%;
@@ -159,7 +159,7 @@ mysqli_close($connexion);
                 <input type="text" id="Nom" name="Nom" required>
 
                 <label for="Prenom">Prénom :</label>
-                <input type="text" id="Prenom" name="Prenom">
+                <input type="text" id="Prenom" name="Prenom" required>
 
                 <label for="Adresse">Adresse :</label>
                 <input type="text" id="Adresse" name="Adresse" required>
@@ -174,13 +174,11 @@ mysqli_close($connexion);
                 <input type="text" id="CAT" name="CAT" placeholder="Ex = C1">
 
                 <label for="Compte">Solde du Compte (€) :</label>
-                <input type="number" step="0.01" id="Compte" name="Compte" required>
-
+                <input type="number" step="0.1" id="Compte" name="Compte" required>
                 <input type="submit" value="Ajouter le Client">
             </form>
         </div>
     </main>
-
     <?php require '../fotter.php'; ?>
 </body>
 </html>

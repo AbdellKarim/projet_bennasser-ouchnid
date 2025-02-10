@@ -20,7 +20,7 @@ define('URL', '/projet_bennasser-ouchnid/');
 
 
 <header class="en_tete">
-    <h1><a href="<?= URL ?>index.php">Bibliothèque</a></h1>
+    <h1><a href="<?= URL ?>index.php">Clicom</a></h1>
 </header>
 
 <nav class="menu">
@@ -39,7 +39,7 @@ define('URL', '/projet_bennasser-ouchnid/');
                 <li><a href="<?= URL ?>Commandes/ajouter.php">Ajouter</a></li>
                 <li><a href="<?= URL ?>Commandes/modifier.php">Modification</a></li>
                 <li><a href="<?= URL ?>Commandes/supprimer.php">Suppression</a></li>
-                <li><a href="<?= URL ?>Commandes/DB.php">Facture</a></li>
+                <li><a href="<?= URL ?>Commandes/facture.php">Facture</a></li>
             </ul>
         </li>
         <li><a href="">Produit</a>

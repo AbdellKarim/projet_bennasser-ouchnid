@@ -1,10 +1,14 @@
 <?php
 require '../auth.php'; // Vérifie si l'utilisateur est connecté
 
+
+$message_erreur = "";
+
+
 // Connexion à la base de données
 $connexion = mysqli_connect("localhost", "root", "", "clicom");
 if (!$connexion) {
-    die("Erreur de connexion à la base de données : " . mysqli_connect_error());
+    $message_erreur .= "Erreur de connexion à la base de données : " . mysqli_connect_error();
 }
 mysqli_set_charset($connexion, "utf8");
 
@@ -37,7 +41,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         echo "Client introuvable.";
     }
 } else {
-    
     echo "ID client non spécifié.";
 }
 

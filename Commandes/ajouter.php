@@ -55,6 +55,7 @@ if (isset($_POST['ajouter'])) {
 
         if (mysqli_num_rows($resultat) != 0) {
             $message_erreur .= "Une commande avec le numéro $NCom existe déjà<br>\n";
+            
         } else {
             // Insertion de la commande
             $requete = "INSERT INTO commande (NCom, NCli, DateCom) VALUES (?, ?, ?)";
@@ -72,6 +73,8 @@ if (isset($_POST['ajouter'])) {
                 $message_erreur .= "Erreur lors de l'ajout de la commande.<br>\n";
             }
         }
+    }else{
+        $message_erreur .= "Un Erreur ce Produit Lors de execution de la requete.<br>\n";
     }
 }
 
