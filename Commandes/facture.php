@@ -1,11 +1,3 @@
-
-Actions sur les courriels
-  Répondre à l’expéditeur Répondre à la liste ou à l’expéditeur et à tous les destinataires Transférer le courriel   Ouvrir dans une nouvelle fenêtre
-Objet: (pas d’objet)
-Photo du contact
-De 	ABDELILAH OUCHNID <abdelilah.ouchnid@etudiant.univ-reims.fr>
-	Date 	Aujourd’hui 16:34
-Corps du courriel
 <?php
 require '../auth.php'; // Vérifier si l'utilisateur est connecté
 require '../header.php'; // Inclusion du header

@@ -30,7 +30,6 @@ define('URL', '/projet_bennasser-ouchnid/');
                 <li><a href="<?= URL ?>Clients/liste.php">Liste des clients</a></li>
                 <li><a href="<?= URL ?>Clients/ajouter.php">Ajouter des clients</a></li>
                 <li><a href="<?= URL ?>Clients/modifier.php">Modification</a></li>
-                <li><a href="<?= URL ?>Clients/supprimer.php">Suppression</a></li>
             </ul>
         </li>
         <li><a href="">Commandes</a>
@@ -38,7 +37,6 @@ define('URL', '/projet_bennasser-ouchnid/');
                 <li><a href="<?= URL ?>Commandes/liste.php">Liste</a></li>
                 <li><a href="<?= URL ?>Commandes/ajouter.php">Ajouter</a></li>
                 <li><a href="<?= URL ?>Commandes/modifier.php">Modification</a></li>
-                <li><a href="<?= URL ?>Commandes/supprimer.php">Suppression</a></li>
                 <li><a href="<?= URL ?>Commandes/facture.php">Facture</a></li>
             </ul>
         </li>
@@ -47,7 +45,6 @@ define('URL', '/projet_bennasser-ouchnid/');
                 <li><a href="<?= URL ?>Produits/liste.php">Liste</a></li>
                 <li><a href="<?= URL ?>Produits/ajouter.php">Ajouter des produits</a></li>
                 <li><a href="<?= URL ?>Produits/modifier.php">Modification</a></li>
-                <li><a href="<?= URL ?>Produits/supprimer.php">Suppression</a></li>
             </ul>
         </li>
         <li><a href="#">Connexion</a></li>
