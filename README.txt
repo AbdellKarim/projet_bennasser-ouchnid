@@ -1,4 +1,4 @@
-/projet_Bennasser-ouchnid
+
 ├── index.php          # Page d'accueil
 ├── login.php          # Page de connexion
 ├── dashboard.php      # Tableau de bord après connexion
